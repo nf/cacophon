@@ -14,13 +14,16 @@
 				var el = document.getElementById(id);
 				return el.value / 100;
 			}
+			var el;
 			function listen() {
 				var a = value('knobA');
 				var b = value('knobB');
 				var c = value('knobC');
-				var el = document.createElement('audio');
+				if (el) document.body.removeChild(el)
+				el = document.createElement('audio');
 				el.src = '/audio?a='+a+'&b='+b+'&c='+c;
 				el.autoplay = true;
+				document.body.appendChild(el);
 			}
 		</script>
 	</head>
