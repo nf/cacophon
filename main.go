@@ -17,7 +17,7 @@ import (
 var (
 	httpAddr = flag.String("http", "localhost:8080", "HTTP listen address")
 	length   = flag.Duration("len", 5*time.Second, "recording length")
-	inFile   = flag.String("in", "cacophon", "patch input file name")
+	inFile   = flag.String("in", "cacophon.patch", "patch input file name")
 )
 
 func main() {
