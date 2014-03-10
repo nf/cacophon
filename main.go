@@ -42,9 +42,12 @@ func pcm(samp []audio.Sample) []byte {
 
 func normalize(s []audio.Sample) {
 	max := audio.Sample(0)
-	for i := range s {
-		if s[i] > max {
-			max = s[i]
+	for _, v := range s {
+		if v < 0 {
+			v *= -1
+		}
+		if v > max {
+			max = v
 		}
 	}
 	if max > 0 {
