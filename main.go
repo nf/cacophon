@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"flag"
+	"io/ioutil"
 	"log"
 	"os/exec"
 	"time"
@@ -33,10 +34,22 @@ func render(u *ui.UI, d time.Duration, filename string) error {
 	frames := int(d / time.Second * 44100 / 256)
 	samp := u.Render(frames)
 	normalize(samp)
+	b, err := mp3(pcm(samp))
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(filename, b, 0644)
+}
 
-	cmd := exec.Command("lame", "-m", "mono", "-r", "-", filename)
-	cmd.Stdin = bytes.NewReader(pcm(samp))
-	return cmd.Run()
+func mp3(pcm []byte) ([]byte, error) {
+	var out bytes.Buffer
+	cmd := exec.Command("lame", "-m", "mono", "-r", "-", "-")
+	cmd.Stdin = bytes.NewReader(pcm)
+	cmd.Stdout = &out
+	if err := cmd.Run(); err != nil {
+		return nil, err
+	}
+	return out.Bytes(), nil
 }
 
 func pcm(samp []audio.Sample) []byte {
