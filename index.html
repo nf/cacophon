@@ -1,1 +1,36 @@
-<audio src="/audio" autoplay></audio>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="webaudio-knob/js/polymer.min.js"></script>
+		<link rel="import" href="webaudio-knob/webcomponents/knob.html">
+		<style>
+			body {
+				background: #666;
+			}
+		</style>
+
+		<script>
+			function value(id) {
+				var el = document.getElementById(id);
+				return el.value / 100;
+			}
+			function listen() {
+				var a = value('knobA');
+				var b = value('knobB');
+				var c = value('knobC');
+				var el = document.createElement('audio');
+				el.src = '/audio?a='+a+'&b='+b+'&c='+c;
+				el.autoplay = true;
+			}
+		</script>
+	</head>
+	<body>
+		<webaudio-knob id="knobA" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+		<webaudio-knob id="knobB" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+		<webaudio-knob id="knobC" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+
+		<input id="listen" type="button" value="Listen" onClick="listen();">
+	</body>
+</html>
+
+

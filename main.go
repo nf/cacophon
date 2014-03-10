@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/nf/sigourney/audio"
@@ -33,9 +34,10 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "error processing audio", 500)
 		return
 	}
-	u.Set("value32", 0) // delay
-	u.Set("value22", 0) // speed
-	u.Set("value17", 0) // fm
+
+	u.Set("value32", floatValue(r, "a")) // delay
+	u.Set("value22", floatValue(r, "b")) // speed
+	u.Set("value17", floatValue(r, "c")) // fm
 
 	frames := int(*length / time.Second * 44100 / 256)
 	samp := u.Render(frames)
@@ -51,6 +53,16 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := w.Write(b); err != nil {
 		log.Println(err)
 	}
+}
+
+func floatValue(r *http.Request, name string) float64 {
+	f, _ := strconv.ParseFloat(r.FormValue(name), 64)
+	if f > 1 {
+		f = 1
+	} else if f < 0 {
+		f = 0
+	}
+	return f
 }
 
 func mp3(pcm []byte) ([]byte, error) {
