@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"bytes"
@@ -15,16 +15,13 @@ import (
 )
 
 var (
-	httpAddr = flag.String("http", "localhost:8080", "HTTP listen address")
 	length   = flag.Duration("len", 5*time.Second, "recording length")
 	inFile   = flag.String("in", "cacophon.patch", "patch input file name")
 )
 
-func main() {
-	flag.Parse()
+func init() {
 	http.Handle("/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/audio", audioHandler)
-	log.Fatal(http.ListenAndServe(*httpAddr, nil))
 }
 
 func audioHandler(w http.ResponseWriter, r *http.Request) {
