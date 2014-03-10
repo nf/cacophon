@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"flag"
-	"io/ioutil"
 	"log"
+	"net/http"
 	"os/exec"
 	"time"
 
@@ -14,34 +14,43 @@ import (
 )
 
 var (
-	length  = flag.Duration("len", 5*time.Second, "recording length")
-	outFile = flag.String("out", "out.mp3", "mp3 output file name")
-	inFile  = flag.String("in", "cacophon", "patch input file name")
+	httpAddr = flag.String("http", "localhost:8080", "HTTP listen address")
+	length   = flag.Duration("len", 5*time.Second, "recording length")
+	inFile   = flag.String("in", "cacophon", "patch input file name")
 )
 
 func main() {
 	flag.Parse()
+	http.Handle("/", http.FileServer(http.Dir(".")))
+	http.HandleFunc("/audio", audioHandler)
+	log.Fatal(http.ListenAndServe(*httpAddr, nil))
+}
+
+func audioHandler(w http.ResponseWriter, r *http.Request) {
 	u := ui.New(noopHandler{})
 	if err := u.Load(*inFile); err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		http.Error(w, "error processing audio", 500)
+		return
 	}
 	u.Set("value32", 0) // delay
 	u.Set("value22", 0) // speed
 	u.Set("value17", 0) // fm
-	if err := render(u, *length, *outFile); err != nil {
-		log.Fatal(err)
-	}
-}
 
-func render(u *ui.UI, d time.Duration, filename string) error {
-	frames := int(d / time.Second * 44100 / 256)
+	frames := int(*length / time.Second * 44100 / 256)
 	samp := u.Render(frames)
 	normalize(samp)
 	b, err := mp3(pcm(samp))
 	if err != nil {
-		return err
+		log.Println(err)
+		http.Error(w, "error processing audio", 500)
+		return
 	}
-	return ioutil.WriteFile(filename, b, 0644)
+
+	w.Header().Set("Content-type", "audio/mp3")
+	if _, err := w.Write(b); err != nil {
+		log.Println(err)
+	}
 }
 
 func mp3(pcm []byte) ([]byte, error) {
