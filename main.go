@@ -1,14 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"encoding/binary"
 	"log"
-	"os"
+	"os/exec"
 	"time"
 
 	"github.com/nf/sigourney/audio"
 	"github.com/nf/sigourney/ui"
-	"github.com/nf/wav"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	if err := u.Load("simple"); err != nil {
 		log.Fatal(err)
 	}
-	if err := render(u, 2*time.Second, "out.wav"); err != nil {
+	if err := render(u, 2*time.Second, "out.mp3"); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -25,24 +25,19 @@ func render(u *ui.UI, d time.Duration, filename string) error {
 	frames := int(d / time.Second * 44100 / 256)
 	samp := u.Render(frames)
 	normalize(samp)
+
+	cmd := exec.Command("lame", "-m", "mono", "-r", "-", filename)
+	cmd.Stdin = bytes.NewReader(pcm(samp))
+	return cmd.Run()
+}
+
+func pcm(samp []audio.Sample) []byte {
 	data := make([]byte, len(samp)*2)
 	for i := range samp {
 		s := uint16(samp[i] * (1 << 15))
 		binary.LittleEndian.PutUint16(data[2*i:], s)
 	}
-	w := &wav.File{
-		SampleRate:      44100,
-		SignificantBits: 16,
-		Channels:        1,
-	}
-	f, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	if err := w.WriteData(f, data); err != nil {
-		return err
-	}
-	return f.Close()
+	return data
 }
 
 func normalize(s []audio.Sample) {
