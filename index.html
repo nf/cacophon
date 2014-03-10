@@ -7,6 +7,31 @@
 			body {
 				background: #666;
 			}
+			#panel {
+				border-radius: 25px;
+				background: #333;
+				width: 340px;
+				padding: 20px;
+				text-align: center;
+			}
+			#panel webaudio-knob {
+				float: left;
+				margin: 0 5px;
+			}
+			#listen {
+				border-radius: 10px;
+				padding: 6px 10px;
+				border: 2px solid #900;
+				font-size: 16pt;
+				background: #C00;
+				color: black;
+				font-weight: bold;
+				margin-top: 11px;
+				outline-width: 0;
+			}
+			#listen:hover {
+				background: #F00;
+			}
 		</style>
 
 		<script>
@@ -28,11 +53,14 @@
 		</script>
 	</head>
 	<body>
-		<webaudio-knob id="knobA" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
-		<webaudio-knob id="knobB" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
-		<webaudio-knob id="knobC" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+		<div id="panel">
+			<webaudio-knob id="knobA" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+			<webaudio-knob id="knobB" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="100" step="1" sprites="100"></webaudio-knob>
+			<webaudio-knob id="knobC" src="webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
 
-		<input id="listen" type="button" value="Listen" onClick="listen();">
+			<input id="listen" type="button" value="Listen" onClick="listen();" outline="none">
+			<div style="clear: both"></div>
+		</div>
 	</body>
 </html>
 
