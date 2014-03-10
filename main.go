@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"flag"
 	"log"
 	"os/exec"
 	"time"
@@ -11,12 +12,19 @@ import (
 	"github.com/nf/sigourney/ui"
 )
 
+var (
+	length  = flag.Duration("len", 5*time.Second, "recording length")
+	outFile = flag.String("out", "out.mp3", "mp3 output file name")
+	inFile  = flag.String("in", "simple", "patch input file name")
+)
+
 func main() {
+	flag.Parse()
 	u := ui.New(noopHandler{})
-	if err := u.Load("simple"); err != nil {
+	if err := u.Load(*inFile); err != nil {
 		log.Fatal(err)
 	}
-	if err := render(u, 2*time.Second, "out.mp3"); err != nil {
+	if err := render(u, *length, *outFile); err != nil {
 		log.Fatal(err)
 	}
 }
