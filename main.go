@@ -16,7 +16,7 @@ import (
 var (
 	length  = flag.Duration("len", 5*time.Second, "recording length")
 	outFile = flag.String("out", "out.mp3", "mp3 output file name")
-	inFile  = flag.String("in", "simple", "patch input file name")
+	inFile  = flag.String("in", "cacophon", "patch input file name")
 )
 
 func main() {
@@ -25,6 +25,9 @@ func main() {
 	if err := u.Load(*inFile); err != nil {
 		log.Fatal(err)
 	}
+	u.Set("value32", 0) // delay
+	u.Set("value22", 0) // speed
+	u.Set("value17", 0) // fm
 	if err := render(u, *length, *outFile); err != nil {
 		log.Fatal(err)
 	}
