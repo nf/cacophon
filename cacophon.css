@@ -1,0 +1,14 @@
+body {
+
+}
+#panel {
+    border-radius: 25px;
+    background: #333;
+    width: 340px;
+    padding: 20px;
+    text-align: center;
+}
+#panel webaudio-knob {
+    float: left;
+    margin: 0 5px;
+}
