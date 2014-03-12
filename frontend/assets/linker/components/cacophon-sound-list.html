@@ -17,13 +17,14 @@
   </template>
   <script>
     Polymer('cacophon-sound-list', {
-      sounds: [],
+      created: function() {
+        this.sounds = [];
+      },
       ready: function() {
-        var el = this;
         var socket = io.connect();
         socket.get('/sound', function(response) {
-           el.sounds = response;
-        });
+          this.sounds = response;
+        }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
         this.sounds.push(detail);

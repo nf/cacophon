@@ -17,7 +17,6 @@
   <script>
     Polymer('cacophon-synth', {
       createSound: function() {
-        var el = this;
         var socket = io.connect();
         var sound = {
           a: this.$.knobA.value,
@@ -25,8 +24,8 @@
           c: this.$.knobC.value
         };
         socket.post('/sound', sound, function(response) {
-        });
+        }.bind(this));
       }
-    });    
+    });
   </script>
 </polymer-element>
