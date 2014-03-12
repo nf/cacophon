@@ -7,7 +7,6 @@
           var el = this;
           var socket = io.connect();
           socket.on('message', function (message) {
-            console.log('sails-signals', message);
             var name = 'sails-' + message.model + '-' + message.verb;
             el.asyncFire('polymer-signal', {name: name, data: message.data});
           });
