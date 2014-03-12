@@ -1,2 +1,2 @@
-# cacophon-frontend
+# cacophon
 ### a Sails application
