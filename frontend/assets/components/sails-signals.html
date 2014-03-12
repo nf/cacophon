@@ -1,0 +1,18 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer-signals/polymer-signals.html">
+<link rel="import" href="sails-io.html">
+
+<polymer-element name="sails-signals">
+  <script>
+    Polymer('sails-signals', {
+        ready: function() {
+          var el = this;
+          var socket = io.connect();
+          socket.on('message', function (message) {
+            var name = 'sails-' + message.model + '-' + message.verb;
+            el.asyncFire('polymer-signal', {name: name, data: message.data});
+          });
+        }
+    });
+  </script>
+</polymer-element>

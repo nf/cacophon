@@ -1,0 +1,35 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="sails-io.html">
+
+<polymer-element name="cacophon-sound-list">
+  <template>
+    <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
+    <ul>
+      <template repeat="{{ sounds }}">
+        <li>
+          <span>{{ a }}</span>
+          <span>{{ b }}</span>
+          <span>{{ c }}</span>
+          <a href="/sound/{{ id }}">/sound/{{ id }}</a>
+          <span>{{ createdAt }}</span>
+        </li>
+      </template>
+    </ul>
+  </template>
+  <script>
+    Polymer('cacophon-sound-list', {
+      created: function() {
+        this.sounds = [];
+      },
+      ready: function() {
+        var socket = io.connect();
+        socket.get('/sound', function(response) {
+          this.sounds = response;
+        }.bind(this));
+      },
+      soundCreated: function(e, detail, sender) {
+        this.sounds.push(detail);
+      }
+    });
+  </script>
+</polymer-element>
