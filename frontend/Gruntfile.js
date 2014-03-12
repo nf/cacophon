@@ -29,7 +29,8 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-    'linker/**/*.css'
+    'linker/bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'linker/styles/*.css'
   ];
 
 
@@ -52,14 +53,18 @@ module.exports = function (grunt) {
     // then beef it up with some convenience logic for talking to Sails.js
     'linker/js/sails.io.js',
 
+    // *->    put other dependencies here   <-*
+    'linker/bower_components//angular/angular.min.js',
+    'linker/bower_components//angular-bootstrap/ui-bootstrap.min.js',
+    'linker/bower_components//angular-sails/angular-sails.min.js',
+    'linker/bower_components//webaudio-knob/js/polymer.min.js',
+
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
 
-    // *->    put other dependencies here   <-*
-
     // All of the rest of your app scripts imported here
-    'linker/**/*.js'
+    'linker/js/*.js'
   ];
 
 
@@ -74,7 +79,7 @@ module.exports = function (grunt) {
    */
 
   var templateFilesToInject = [
-    'linker/**/*.html'
+    'linker/templates/*.html'
   ];
 
 
