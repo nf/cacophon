@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
   <head>
     <title><%- title %></title>
 
@@ -31,13 +31,15 @@
     <link rel="stylesheet" href="/linker/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/linker/styles/cacophon.css">
     <!--STYLES END-->
-    <link rel="import" href="/linker/bower_components/webaudio-knob/webcomponents/knob.html">
+    <script src="/linker/bower_components/platform/platform.js"></script>
+
+    <link rel="import" href="/linker/bower_components/polymer/polymer.html"> 
+    <link rel="import" href="/linker/components/cacophon-app.html">
+
   </head>
 
   <body>
     <%- body %>
-
-
 
     <!--
         Client-side Templates
@@ -90,10 +92,6 @@
     <!--SCRIPTS-->
     <script src="/linker/js/socket.io.js"></script>
     <script src="/linker/js/sails.io.js"></script>
-    <script src="/linker/bower_components/angular/angular.min.js"></script>
-    <script src="/linker/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="/linker/bower_components/angular-sails/angular-sails.min.js"></script>
-    <script src="/linker/bower_components/webaudio-knob/js/polymer.min.js"></script>
     <script src="/linker/js/app.js"></script>
     <script src="/linker/js/cacophon.js"></script>
     <!--SCRIPTS END-->

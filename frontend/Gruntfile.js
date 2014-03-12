@@ -54,10 +54,6 @@ module.exports = function (grunt) {
     'linker/js/sails.io.js',
 
     // *->    put other dependencies here   <-*
-    'linker/bower_components//angular/angular.min.js',
-    'linker/bower_components//angular-bootstrap/ui-bootstrap.min.js',
-    'linker/bower_components//angular-sails/angular-sails.min.js',
-    'linker/bower_components//webaudio-knob/js/polymer.min.js',
 
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
