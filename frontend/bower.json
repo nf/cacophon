@@ -24,6 +24,8 @@
     "bootstrap": "~3.1.1",
     "bower-sails.io": "~0.0.1",
     "socket.io-client": "~0.9.16",
-    "webaudio-knob": "git://github.com/agektmr/webaudio-knob.git"
+    "webaudio-knob": "git://github.com/agektmr/webaudio-knob.git",
+    "polymer": "Polymer/polymer#~0.2.1",
+    "polymer-signals": "Polymer/polymer-signals#~0.2.1"
   }
 }
