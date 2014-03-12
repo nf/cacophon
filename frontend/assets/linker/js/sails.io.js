@@ -1,10 +1,11 @@
 /**
  * sails.io.js
  *
- * This file allows you to send and receive socket.io messages to & from Sails 
- * by simulating a REST client interface on top of socket.io.
+ * This file is completely optional, and merely here for your convenience.
  *
- * It models its API after the $.ajax pattern from jQuery you might be familiar with.
+ * It reduces the amount of browser code necessary to send and receive messages
+ * to & from Sails by simulating a REST client interface on top of socket.io.
+ * It models its API after the pattern in jQuery you might be familiar with.
  * 
  * So to switch from using AJAX to Socket.io, instead of:
  *    `$.post( url, [data], [cb] )`
@@ -122,7 +123,7 @@
     }
 
     // Build to request
-    var json = io.JSON.stringify({
+    var json = window.io.JSON.stringify({
       url: url,
       data: data
     });
@@ -135,7 +136,7 @@
 
       if (result && typeof result === 'string') {
         try {
-          parsedResult = io.JSON.parse(result);
+          parsedResult = window.io.JSON.parse(result);
         } catch (e) {
           if (typeof console !== 'undefined') {
             console.warn("Could not parse:", result, e);
