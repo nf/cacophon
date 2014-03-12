@@ -44,4 +44,4 @@ nbproject
 ########################
 config/local.js
 
-assets/linker/bower_components/
+assets/bower_components/
