@@ -1,9 +1,8 @@
-package app
+package backend
 
 import (
 	"bytes"
 	"encoding/binary"
-	"flag"
 	"log"
 	"net/http"
 	"os/exec"
@@ -14,19 +13,18 @@ import (
 	"github.com/nf/sigourney/ui"
 )
 
-var (
-	length   = flag.Duration("len", 5*time.Second, "recording length")
-	inFile   = flag.String("in", "cacophon.patch", "patch input file name")
+const (
+	length = 5 * time.Second
+	inFile = "cacophon.patch"
 )
 
 func init() {
-	http.Handle("/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/audio", audioHandler)
 }
 
 func audioHandler(w http.ResponseWriter, r *http.Request) {
 	u := ui.New(noopHandler{})
-	if err := u.Load(*inFile); err != nil {
+	if err := u.Load(inFile); err != nil {
 		log.Println(err)
 		http.Error(w, "error processing audio", 500)
 		return
@@ -36,7 +34,7 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	u.Set("value22", floatValue(r, "b")) // speed
 	u.Set("value17", floatValue(r, "c")) // fm
 
-	frames := int(*length / time.Second * 44100 / 256)
+	frames := int(length / time.Second * 44100 / 256)
 	samp := u.Render(frames)
 	normalize(samp)
 	b, err := mp3(pcm(samp))

@@ -12,6 +12,6 @@ vm_settings:
   apt_get_install: lame
 
 handlers:
-- url: /.*
+- url: /audio
   script: _go_app
 
