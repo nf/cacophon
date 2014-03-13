@@ -1,18 +1,35 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer-flex-layout/polymer-flex-layout.html">
+<link rel="import" href="/bower_components/webaudio-knob/webcomponents/knob.html">
 <link rel="import" href="sails-io.html">
 
 <polymer-element name="cacophon-sound-list">
   <template>
+    <style>
+      #knob {
+        zoom: 0.75;
+        -webkit-transform: scale(0.75);
+        -moz-transform: scale(0.75);
+      }
+      #mini-panel webaudio-knob {
+        margin: 0 5px;
+      }
+    </style>
     <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
     <ul>
       <template repeat="{{ sounds }}">
         <li>
-          <span>{{ a }}</span>
-          <span>{{ b }}</span>
-          <span>{{ c }}</span>
-          <a href="/sounds/{{ id }}">/sounds/{{ id }}</a>
-          <span>{{ createdAt }}</span>
-          <audio src="data:audio/mp3;base64,{{ mp3 }}" controls></audio>
+          <div id="mini-panel">
+            <a href="/sounds/{{ id }}">/sounds/{{ id }}</a>
+            <div id="mini-panel">
+              <polymer-flex-layout></polymer-flex-layout>
+              <webaudio-knob id="knobA" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ a }}" step="1" sprites="100"></webaudio-knob>
+              <webaudio-knob id="knobB" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ b }}" step="1" sprites="100"></webaudio-knob>
+              <webaudio-knob id="knobC" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ c }}" step="1" sprites="100"></webaudio-knob>
+            </div>
+            <span>{{ createdAt }}</span>
+          </div>
+          <audio src="data:audio/mp3;base64,{{ mp3 }}" controls autoplay></audio>
         </li>
       </template>
     </ul>
