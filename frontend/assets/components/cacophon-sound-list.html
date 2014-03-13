@@ -24,12 +24,12 @@
       },
       ready: function() {
         var socket = io.connect();
-        socket.get('/sounds', function(response) {
+        socket.get('/sounds?sort=id desc', function(response) {
           this.sounds = response;
         }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
-        this.sounds.push(detail);
+        this.sounds.unshift(detail);
       }
     });
   </script>
