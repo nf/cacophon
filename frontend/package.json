@@ -7,8 +7,10 @@
         "sails": "0.9.11",
         "grunt": "0.4.1",
         "sails-disk": "~0.9.0",
+        "sails-memory": "~0.9.0",
         "ejs": "0.8.4",
-        "optimist": "0.3.4"
+        "optimist": "0.3.4",
+        "request": "2.34.0",
     },
     "scripts": {
         "start": "node app.js",
