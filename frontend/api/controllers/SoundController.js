@@ -1,30 +1,42 @@
 /**
- * SoundController
- *
- * @module      :: Controller
- * @description	:: A set of functions called `actions`.
- *
- *                 Actions contain code telling Sails how to respond to a certain type of request.
- *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
- *
- *                 You can configure the blueprint URLs which trigger these actions (`config/controllers.js`)
- *                 and/or override them with custom routes (`config/routes.js`)
- *
- *                 NOTE: The code you write here supports both HTTP and Socket.io automatically.
- *
- * @docs        :: http://sailsjs.org/#!documentation/controllers
- */
+    * SoundController
+    *
+    * @module      :: Controller
+    * @description	:: A set of functions called `actions`.
+    *
+    *                 Actions contain code telling Sails how to respond to a certain type of request.
+    *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
+    *
+    *                 You can configure the blueprint URLs which trigger these actions (`config/controllers.js`)
+    *                 and/or override them with custom routes (`config/routes.js`)
+    *
+    *                 NOTE: The code you write here supports both HTTP and Socket.io automatically.
+    *
+    * @docs        :: http://sailsjs.org/#!documentation/controllers
+    */
 
 module.exports = {
-    
-  
 
 
   /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to SoundController)
-   */
-  _config: {}
+      * Overrides for the settings in `config/controllers.js`
+      * (specific to SoundController)
+  */
+  _config: {},
 
-  
+  render: function(req, res) {
+    Sound.find(req.param('id')).exec(function (err, sound) {
+      if (err) {
+        return res.send(err, 500);
+      }
+      if (!sound || sound.length === 0) {
+        return res.send('no such sound: ' + req.param('id'), 404);
+      }
+      if (!sound[0].mp3) {
+        return res.send('sound #' + req.param('id') + ' has no mp3 data', 415);
+      }
+      res.set('Content-Type', 'audio/mp3');
+      res.send(new Buffer(sound[0].mp3, 'base64'));
+    });
+  },
 };
