@@ -14,6 +14,8 @@
     *
     * @docs        :: http://sailsjs.org/#!documentation/controllers
     */
+var base64 = require('base64-stream');
+var stream = require('stream');
 
 module.exports = {
 
@@ -25,18 +27,18 @@ module.exports = {
   _config: {},
 
   render: function(req, res) {
-    Sound.find(req.param('id')).exec(function (err, sound) {
+    Sound.findOne(req.param('id')).exec(function (err, sound) {
       if (err) {
         return res.send(err, 500);
       }
-      if (!sound || sound.length === 0) {
-        return res.send('no such sound: ' + req.param('id'), 404);
-      }
-      if (!sound[0].mp3) {
+      if (!sound.mp3) {
         return res.send('sound #' + req.param('id') + ' has no mp3 data', 415);
       }
       res.set('Content-Type', 'audio/mp3');
-      res.send(new Buffer(sound[0].mp3, 'base64'));
+      var s = new stream.Readable();
+      s.push(sound.mp3);
+      s.push(null);
+      s.pipe(base64.decode()).pipe(res);
     });
   },
 };

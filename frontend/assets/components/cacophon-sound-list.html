@@ -1,18 +1,34 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer-flex-layout/polymer-flex-layout.html">
+<link rel="import" href="/bower_components/webaudio-knob/webcomponents/knob.html">
 <link rel="import" href="sails-io.html">
 
 <polymer-element name="cacophon-sound-list">
   <template>
+    <style>
+      webaudio-knob {
+        zoom: 0.75;
+        -webkit-transform: scale(0.75);
+        -moz-transform: scale(0.75);
+        margin: 0 5px;
+        pointer-events : none;
+      }
+    </style>
     <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
     <ul>
-      <template repeat="{{ sounds }}">
+      <template repeat="{{ s in sounds }}">
         <li>
-          <span>{{ a }}</span>
-          <span>{{ b }}</span>
-          <span>{{ c }}</span>
-          <a href="/sound/{{ id }}">/sound/{{ id }}</a>
-          <span>{{ createdAt }}</span>
-          <audio src="data:audio/mp3;base64,{{ mp3 }}" controls></audio>
+          <div>
+            <a href="/sounds/{{ s.id }}">/sounds/{{ s.id }}</a>
+            <div>
+              <polymer-flex-layout></polymer-flex-layout>
+              <webaudio-knob id="knobA_{{ s.id }}" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ s.a }}" step="1" sprites="100"></webaudio-knob>
+              <webaudio-knob id="knobB_{{ s.id }}" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ s.b }}" step="1" sprites="100"></webaudio-knob>
+              <webaudio-knob id="knobC_{{ s.id }}" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="{{ s.c }}" step="1" sprites="100"></webaudio-knob>
+            </div>
+            <span>{{ s.createdAt }}</span>
+          </div>
+          <audio src="data:audio/mp3;base64,{{ s.mp3 }}" controls autoplay></audio>
         </li>
       </template>
     </ul>
@@ -24,12 +40,12 @@
       },
       ready: function() {
         var socket = io.connect();
-        socket.get('/sound', function(response) {
+        socket.get('/sounds?sort=id desc', function(response) {
           this.sounds = response;
         }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
-        this.sounds.push(detail);
+        this.sounds.unshift(detail);
       }
     });
   </script>

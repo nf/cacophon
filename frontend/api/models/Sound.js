@@ -5,12 +5,10 @@
  * @description :: Store a cacophon sound.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
-
 var request = require('request');
 var qs = require('querystring');
 
 module.exports = {
-
   attributes: {
 
   	/* e.g.
@@ -34,7 +32,7 @@ module.exports = {
       url: url,
       encoding: null
     }, function(err, response, body) {
-      if (err) {
+      if (err && response.statusCode == 200) {
         console.error('mp3 encoding failed:', err);
       } else {
         values.mp3 = body.toString('base64');
