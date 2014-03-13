@@ -12,11 +12,7 @@
         "optimist": "0.3.4",
         "request": "2.34.0"
     },
-    "scripts": {
-        "start": "node app.js",
-        "debug": "node debug app.js"
-    },
-    "main": "app.js",
+    "main": "server.js",
     "repository": "",
     "author": "",
     "license": ""
