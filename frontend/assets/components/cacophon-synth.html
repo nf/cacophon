@@ -24,7 +24,7 @@
           b: this.$.knobB.value,
           c: this.$.knobC.value
         };
-        socket.post('/sound', sound, function(response) {
+        socket.post('/sounds', sound, function(response) {
         }.bind(this));
       }
     });

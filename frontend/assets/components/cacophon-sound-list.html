@@ -10,7 +10,7 @@
           <span>{{ a }}</span>
           <span>{{ b }}</span>
           <span>{{ c }}</span>
-          <a href="/sound/{{ id }}">/sound/{{ id }}</a>
+          <a href="/sounds/{{ id }}">/sounds/{{ id }}</a>
           <span>{{ createdAt }}</span>
           <audio src="data:audio/mp3;base64,{{ mp3 }}" controls></audio>
         </li>
@@ -24,7 +24,7 @@
       },
       ready: function() {
         var socket = io.connect();
-        socket.get('/sound', function(response) {
+        socket.get('/sounds', function(response) {
           this.sounds = response;
         }.bind(this));
       },
