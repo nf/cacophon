@@ -28,7 +28,7 @@
             </div>
             <span>{{ s.createdAt }}</span>
           </div>
-          <audio src="data:audio/mp3;base64,{{ s.mp3 }}" controls autoplay></audio>
+          <audio src="data:audio/mp3;base64,{{ s.mp3 }}" controls autoplay?="{{ s.autoplay }}"></audio>
         </li>
       </template>
     </ul>
@@ -45,6 +45,7 @@
         }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
+        detail.autoplay = 'autoplay';
         this.sounds.unshift(detail);
       }
     });
