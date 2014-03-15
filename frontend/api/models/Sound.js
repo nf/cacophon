@@ -10,21 +10,35 @@ var qs = require('querystring');
 
 module.exports = {
   attributes: {
-
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-        a: 'integer',
-        b: 'integer',
-        c: 'integer',
-        mp3: 'string'
+    speed: 'integer',
+    scale: 'integer',
+    perm: 'integer',
+    slew: 'integer',
+    root: 'integer',
+    square: 'integer',
+    amount: 'integer',
+    offset: 'integer',
+    attack: 'integer',
+    decay: 'integer',
+    time: 'integer',
+    feedback: 'integer',
+    mp3: 'string'
   },
 
-  beforeCreate: function(values, next) {
+  beforeCreate: function(v, next) {
     var params = qs.stringify({
-      a: values.a / 100.0,
-      b: values.b / 100.0,
-      c: values.c / 100.0
+      speed: v.speed / 100.0,
+      scale: v.scale / 100.0,
+      perm: v.perm / 100.0,
+      slew: v.slew / 100.0,
+      root: v.root / 100.0,
+      square: v.square / 100.0,
+      amount: v.amount / 100.0,
+      offset: v.offset / 100.0,
+      attack: v.attack / 100.0,
+      decay: v.decay / 100.0,
+      time: v.time / 100.0,
+      feedback: v.feedback / 100.0
     });
     var url = 'http://localhost:8080/audio?' + params;
     request({
@@ -35,7 +49,7 @@ module.exports = {
       if (err || response.statusCode != 200) {
         console.error('mp3 encoding failed:', err);
       } else {
-        values.mp3 = body.toString('base64');
+        v.mp3 = body.toString('base64');
       }
       next();
     });

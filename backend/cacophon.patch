@@ -1,16 +1,30 @@
 {
-  "delay25": {
-    "Name": "delay25",
-    "Kind": "delay",
+  "clip3": {
+    "Name": "clip3",
+    "Kind": "clip",
     "Value": 0,
     "Input": {
-      "in": "sum27",
-      "len": "value28"
+      "in": "mul5"
     },
     "Display": {
       "offset": {
-        "left": 199,
-        "top": 629
+        "left": 634,
+        "top": 658
+      }
+    }
+  },
+  "delay24": {
+    "Name": "delay24",
+    "Kind": "delay",
+    "Value": 0,
+    "Input": {
+      "in": "sum25",
+      "len": "value27"
+    },
+    "Display": {
+      "offset": {
+        "left": 862,
+        "top": 641
       }
     }
   },
@@ -19,58 +33,89 @@
     "Kind": "engine",
     "Value": 0,
     "Input": {
-      "in": "sum27"
+      "in": "sum25"
     },
     "Display": {
       "offset": {
-        "left": 302,
-        "top": 1004.75
+        "left": 746.5,
+        "top": 793.25
       }
     }
   },
-  "env37": {
-    "Name": "env37",
+  "env11": {
+    "Name": "env11",
     "Kind": "env",
     "Value": 0,
     "Input": {
-      "att": "value40",
-      "dec": "value39",
-      "trig": "square35"
+      "att": "mul17",
+      "dec": "mul16",
+      "trig": "square15"
     },
     "Display": {
       "offset": {
-        "left": 291,
-        "top": 352
+        "left": 353,
+        "top": 673
       }
     }
   },
-  "mul15": {
-    "Name": "mul15",
-    "Kind": "mul",
+  "env68": {
+    "Name": "env68",
+    "Kind": "env",
     "Value": 0,
     "Input": {
-      "a": "mul18",
-      "b": "sin13"
+      "att": "mul69",
+      "dec": "mul69",
+      "gate": "sequencer61"
     },
     "Display": {
       "offset": {
-        "left": 634,
-        "top": 590
+        "left": 406,
+        "top": 359
       }
     }
   },
-  "mul18": {
-    "Name": "mul18",
+  "mul14": {
+    "Name": "mul14",
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "value16",
-      "b": "value17"
+      "a": "clip3",
+      "b": "env11"
     },
     "Display": {
       "offset": {
-        "left": 672,
-        "top": 529
+        "left": 375,
+        "top": 730
+      }
+    }
+  },
+  "mul16": {
+    "Name": "mul16",
+    "Kind": "mul",
+    "Value": 0,
+    "Input": {
+      "a": "value12",
+      "b": "value18"
+    },
+    "Display": {
+      "offset": {
+        "left": 386,
+        "top": 615
+      }
+    }
+  },
+  "mul17": {
+    "Name": "mul17",
+    "Kind": "mul",
+    "Value": 0,
+    "Input": {
+      "a": "value13",
+      "b": "value18"
+    },
+    "Display": {
+      "offset": {
+        "left": 313,
+        "top": 614
       }
     }
   },
@@ -79,102 +124,158 @@
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "value24",
-      "b": "value22"
+      "a": "value23",
+      "b": "value19"
     },
     "Display": {
       "offset": {
-        "left": 438,
-        "top": 216
+        "left": 145,
+        "top": 184
       }
     }
   },
-  "mul26": {
-    "Name": "mul26",
+  "mul28": {
+    "Name": "mul28",
     "Kind": "mul",
     "Value": 0,
     "Input": {
       "a": "value29",
-      "b": "mul38"
+      "b": "delay24"
     },
     "Display": {
       "offset": {
-        "left": 298,
-        "top": 547
+        "left": 853,
+        "top": 696
       }
     }
   },
-  "mul30": {
-    "Name": "mul30",
+  "mul36": {
+    "Name": "mul36",
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "delay25",
-      "b": "mul33"
+      "a": "mul37",
+      "b": "sin34"
     },
     "Display": {
       "offset": {
-        "left": 194,
-        "top": 690
+        "left": 628,
+        "top": 441
       }
     }
   },
-  "mul33": {
-    "Name": "mul33",
+  "mul37": {
+    "Name": "mul37",
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "value32",
-      "b": "value31"
+      "a": "value39",
+      "b": "value40"
     },
     "Display": {
       "offset": {
-        "left": 126,
-        "top": 630
+        "left": 664,
+        "top": 379
       }
     }
   },
-  "mul38": {
-    "Name": "mul38",
+  "mul5": {
+    "Name": "mul5",
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "env37",
+      "a": "mul6",
       "b": "sin2"
     },
     "Display": {
       "offset": {
-        "left": 280,
-        "top": 435
+        "left": 633,
+        "top": 602
       }
     }
   },
-  "mul8": {
-    "Name": "mul8",
+  "mul6": {
+    "Name": "mul6",
     "Kind": "mul",
     "Value": 0,
     "Input": {
-      "a": "value9",
-      "b": "sin7"
+      "a": "sum10",
+      "b": "value7"
     },
     "Display": {
       "offset": {
-        "left": 513,
-        "top": 470
+        "left": 695,
+        "top": 555
       }
     }
   },
-  "sin13": {
-    "Name": "sin13",
-    "Kind": "sin",
+  "mul69": {
+    "Name": "mul69",
+    "Kind": "mul",
     "Value": 0,
     "Input": {
-      "pitch": "mul8"
+      "a": "value70",
+      "b": "value71"
     },
     "Display": {
       "offset": {
-        "left": 597,
-        "top": 531
+        "left": 363,
+        "top": 311
+      }
+    }
+  },
+  "sequencer49": {
+    "Name": "sequencer49",
+    "Kind": "sequencer",
+    "Value": 0,
+    "Input": {
+      "rst": "skip63",
+      "trig": "square15",
+      "v0": "value50",
+      "v1": "value51",
+      "v2": "value52",
+      "v3": "value53"
+    },
+    "Display": {
+      "offset": {
+        "left": 337,
+        "top": 201
+      }
+    }
+  },
+  "sequencer60": {
+    "Name": "sequencer60",
+    "Kind": "sequencer",
+    "Value": 0,
+    "Input": {
+      "rst": "skip63",
+      "trig": "square15",
+      "v0": "value59",
+      "v1": "value58",
+      "v2": "value57",
+      "v3": "value56"
+    },
+    "Display": {
+      "offset": {
+        "left": 458,
+        "top": 202
+      }
+    }
+  },
+  "sequencer61": {
+    "Name": "sequencer61",
+    "Kind": "sequencer",
+    "Value": 0,
+    "Input": {
+      "rst": "skip62",
+      "trig": "skip63",
+      "v0": "sequencer49",
+      "v1": "sequencer60"
+    },
+    "Display": {
+      "offset": {
+        "left": 402,
+        "top": 265
       }
     }
   },
@@ -183,285 +284,547 @@
     "Kind": "sin",
     "Value": 0,
     "Input": {
-      "pitch": "sum14",
-      "syn": "square11"
+      "pitch": "sum38",
+      "syn": "square15"
     },
     "Display": {
       "offset": {
-        "left": 481,
-        "top": 712
+        "left": 596,
+        "top": 543
       }
     }
   },
-  "sin7": {
-    "Name": "sin7",
+  "sin34": {
+    "Name": "sin34",
     "Kind": "sin",
     "Value": 0,
     "Input": {
-      "pitch": "sum19",
-      "syn": "square11"
+      "pitch": "sum41"
     },
     "Display": {
       "offset": {
-        "left": 489,
-        "top": 406
+        "left": 594,
+        "top": 379
       }
     }
   },
-  "square11": {
-    "Name": "square11",
+  "skip62": {
+    "Name": "skip62",
+    "Kind": "skip",
+    "Value": 0,
+    "Input": {
+      "num": "value66",
+      "trig": "skip63"
+    },
+    "Display": {
+      "offset": {
+        "left": 147,
+        "top": 516
+      }
+    }
+  },
+  "skip63": {
+    "Name": "skip63",
+    "Kind": "skip",
+    "Value": 0,
+    "Input": {
+      "num": "value64",
+      "trig": "square15"
+    },
+    "Display": {
+      "offset": {
+        "left": 108,
+        "top": 458
+      }
+    }
+  },
+  "square15": {
+    "Name": "square15",
     "Kind": "square",
     "Value": 0,
     "Input": {
-      "pitch": "sum23",
-      "syn": "square35"
+      "pitch": "sum20"
     },
     "Display": {
       "offset": {
-        "left": 405,
-        "top": 334
+        "left": 153,
+        "top": 282
       }
     }
   },
-  "square35": {
-    "Name": "square35",
-    "Kind": "square",
-    "Value": 0,
-    "Input": {
-      "pitch": "value36"
-    },
-    "Display": {
-      "offset": {
-        "left": 310,
-        "top": 125
-      }
-    }
-  },
-  "sum14": {
-    "Name": "sum14",
+  "sum10": {
+    "Name": "sum10",
     "Kind": "sum",
     "Value": 0,
     "Input": {
-      "a": "mul8",
-      "b": "mul15"
+      "a": "value9",
+      "b": "value4"
     },
     "Display": {
       "offset": {
-        "left": 523,
-        "top": 654
+        "left": 730,
+        "top": 498
       }
     }
   },
-  "sum19": {
-    "Name": "sum19",
+  "sum20": {
+    "Name": "sum20",
     "Kind": "sum",
     "Value": 0,
     "Input": {
-      "a": "value20",
-      "b": "sum23"
-    },
-    "Display": {
-      "offset": {
-        "left": 524,
-        "top": 343
-      }
-    }
-  },
-  "sum23": {
-    "Name": "sum23",
-    "Kind": "sum",
-    "Value": 0,
-    "Input": {
-      "a": "value12",
+      "a": "value22",
       "b": "mul21"
     },
     "Display": {
       "offset": {
-        "left": 479,
-        "top": 284
+        "left": 177,
+        "top": 234
       }
     }
   },
-  "sum27": {
-    "Name": "sum27",
+  "sum25": {
+    "Name": "sum25",
     "Kind": "sum",
     "Value": 0,
     "Input": {
-      "a": "mul26",
-      "b": "mul30"
+      "a": "mul28",
+      "b": "mul14"
     },
     "Display": {
       "offset": {
-        "left": 285,
-        "top": 629
+        "left": 756,
+        "top": 640
+      }
+    }
+  },
+  "sum38": {
+    "Name": "sum38",
+    "Kind": "sum",
+    "Value": 0,
+    "Input": {
+      "a": "mul36",
+      "b": "sum73"
+    },
+    "Display": {
+      "offset": {
+        "left": 593,
+        "top": 494
+      }
+    }
+  },
+  "sum41": {
+    "Name": "sum41",
+    "Kind": "sum",
+    "Value": 0,
+    "Input": {
+      "a": "sum43",
+      "b": "sum73"
+    },
+    "Display": {
+      "offset": {
+        "left": 547,
+        "top": 316
+      }
+    }
+  },
+  "sum43": {
+    "Name": "sum43",
+    "Kind": "sum",
+    "Value": 0,
+    "Input": {
+      "a": "value47",
+      "b": "value46"
+    },
+    "Display": {
+      "offset": {
+        "left": 580,
+        "top": 264
+      }
+    }
+  },
+  "sum73": {
+    "Name": "sum73",
+    "Kind": "sum",
+    "Value": 0,
+    "Input": {
+      "a": "sum76",
+      "b": "env68"
+    },
+    "Display": {
+      "offset": {
+        "left": 404,
+        "top": 458
+      }
+    }
+  },
+  "sum76": {
+    "Name": "sum76",
+    "Kind": "sum",
+    "Value": 0,
+    "Input": {
+      "a": "value74",
+      "b": "value77"
+    },
+    "Display": {
+      "offset": {
+        "left": 353,
+        "top": 410
       }
     }
   },
   "value12": {
     "Name": "value12",
     "Kind": "value",
-    "Value": -0.7,
+    "Value": 0.5,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 520,
-        "top": 216
+        "left": 313,
+        "top": 14
       }
     }
   },
-  "value16": {
-    "Name": "value16",
+  "value13": {
+    "Name": "value13",
     "Kind": "value",
-    "Value": 0.4,
+    "Value": 0,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 709,
-        "top": 469
+        "left": 256,
+        "top": 13
       }
     }
   },
-  "value17": {
-    "Name": "value17",
+  "value18": {
+    "Name": "value18",
     "Kind": "value",
-    "Value": 1,
+    "Value": 0.05,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 669,
-        "top": 23
+        "left": 344,
+        "top": 553
       }
     }
   },
-  "value20": {
-    "Name": "value20",
+  "value19": {
+    "Name": "value19",
     "Kind": "value",
-    "Value": -0.2,
+    "Value": 0.5,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 559,
-        "top": 284
+        "left": 109,
+        "top": 13
       }
     }
   },
   "value22": {
     "Name": "value22",
     "Kind": "value",
-    "Value": 1,
+    "Value": -1,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 435,
-        "top": 23
+        "left": 217,
+        "top": 184
       }
     }
   },
-  "value24": {
-    "Name": "value24",
+  "value23": {
+    "Name": "value23",
     "Kind": "value",
-    "Value": -0.4,
+    "Value": 0.5,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 473,
-        "top": 151
+        "left": 113,
+        "top": 133
       }
     }
   },
-  "value28": {
-    "Name": "value28",
+  "value27": {
+    "Name": "value27",
     "Kind": "value",
-    "Value": 0.2,
+    "Value": 0,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 221,
-        "top": 549
+        "left": 819,
+        "top": 18
       }
     }
   },
   "value29": {
     "Name": "value29",
     "Kind": "value",
-    "Value": 0.6,
+    "Value": 0,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 339,
-        "top": 487
-      }
-    }
-  },
-  "value31": {
-    "Name": "value31",
-    "Kind": "value",
-    "Value": 0.4,
-    "Input": {},
-    "Display": {
-      "offset": {
-        "left": 89,
-        "top": 551
-      }
-    }
-  },
-  "value32": {
-    "Name": "value32",
-    "Kind": "value",
-    "Value": 1,
-    "Input": {},
-    "Display": {
-      "offset": {
-        "left": 146,
-        "top": 44
-      }
-    }
-  },
-  "value36": {
-    "Name": "value36",
-    "Kind": "value",
-    "Value": -1.2,
-    "Input": {},
-    "Display": {
-      "offset": {
-        "left": 332,
-        "top": 50
+        "left": 750,
+        "top": 18
       }
     }
   },
   "value39": {
     "Name": "value39",
     "Kind": "value",
-    "Value": 0.4,
+    "Value": 0,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 300,
-        "top": 287
+        "left": 531,
+        "top": 17
+      }
+    }
+  },
+  "value4": {
+    "Name": "value4",
+    "Kind": "value",
+    "Value": 0,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 601,
+        "top": 19
       }
     }
   },
   "value40": {
     "Name": "value40",
     "Kind": "value",
-    "Value": 0.0001,
+    "Value": 0.5,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 206,
-        "top": 287
+        "left": 625,
+        "top": 316
+      }
+    }
+  },
+  "value46": {
+    "Name": "value46",
+    "Kind": "value",
+    "Value": 0,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 462,
+        "top": 17
+      }
+    }
+  },
+  "value47": {
+    "Name": "value47",
+    "Kind": "value",
+    "Value": -0.5,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 612,
+        "top": 208
+      }
+    }
+  },
+  "value50": {
+    "Name": "value50",
+    "Kind": "value",
+    "Value": -0.175,
+    "Input": {},
+    "Display": {
+      "label": "c3",
+      "offset": {
+        "left": 305,
+        "top": 101
+      }
+    }
+  },
+  "value51": {
+    "Name": "value51",
+    "Kind": "value",
+    "Value": -0.15833333333333333,
+    "Input": {},
+    "Display": {
+      "label": "d3",
+      "offset": {
+        "left": 333,
+        "top": 146
+      }
+    }
+  },
+  "value52": {
+    "Name": "value52",
+    "Kind": "value",
+    "Value": -0.14166666666666666,
+    "Input": {},
+    "Display": {
+      "label": "e3",
+      "offset": {
+        "left": 367,
+        "top": 101
+      }
+    }
+  },
+  "value53": {
+    "Name": "value53",
+    "Kind": "value",
+    "Value": -0.13333333333333333,
+    "Input": {},
+    "Display": {
+      "label": "f3",
+      "offset": {
+        "left": 397,
+        "top": 147
+      }
+    }
+  },
+  "value56": {
+    "Name": "value56",
+    "Kind": "value",
+    "Value": -0.075,
+    "Input": {},
+    "Display": {
+      "label": "c4",
+      "offset": {
+        "left": 518,
+        "top": 145
+      }
+    }
+  },
+  "value57": {
+    "Name": "value57",
+    "Kind": "value",
+    "Value": -0.08333333333333333,
+    "Input": {},
+    "Display": {
+      "label": "b3",
+      "offset": {
+        "left": 494,
+        "top": 100
+      }
+    }
+  },
+  "value58": {
+    "Name": "value58",
+    "Kind": "value",
+    "Value": -0.1,
+    "Input": {},
+    "Display": {
+      "label": "a3",
+      "offset": {
+        "left": 455,
+        "top": 144
+      }
+    }
+  },
+  "value59": {
+    "Name": "value59",
+    "Kind": "value",
+    "Value": -0.11666666666666667,
+    "Input": {},
+    "Display": {
+      "label": "g3",
+      "offset": {
+        "left": 430,
+        "top": 100
+      }
+    }
+  },
+  "value64": {
+    "Name": "value64",
+    "Kind": "value",
+    "Value": 0.4,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 140,
+        "top": 401
+      }
+    }
+  },
+  "value66": {
+    "Name": "value66",
+    "Kind": "value",
+    "Value": 0.2,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 182,
+        "top": 457
+      }
+    }
+  },
+  "value7": {
+    "Name": "value7",
+    "Kind": "value",
+    "Value": 2,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 670,
+        "top": 497
+      }
+    }
+  },
+  "value70": {
+    "Name": "value70",
+    "Kind": "value",
+    "Value": 1,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 177,
+        "top": 13
+      }
+    }
+  },
+  "value71": {
+    "Name": "value71",
+    "Kind": "value",
+    "Value": 0.5,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 335,
+        "top": 263
+      }
+    }
+  },
+  "value74": {
+    "Name": "value74",
+    "Kind": "value",
+    "Value": -0.3,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 368,
+        "top": 353
+      }
+    }
+  },
+  "value77": {
+    "Name": "value77",
+    "Kind": "value",
+    "Value": 0.3,
+    "Input": {},
+    "Display": {
+      "offset": {
+        "left": 383,
+        "top": 14
       }
     }
   },
   "value9": {
     "Name": "value9",
     "Kind": "value",
-    "Value": -0.3,
+    "Value": 0.5,
     "Input": {},
     "Display": {
       "offset": {
-        "left": 558,
-        "top": 406
+        "left": 766,
+        "top": 443
       }
     }
   }
