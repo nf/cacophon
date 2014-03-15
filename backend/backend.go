@@ -30,9 +30,18 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u.Set("value32", floatValue(r, "a")) // delay
-	u.Set("value22", floatValue(r, "b")) // speed
-	u.Set("value17", floatValue(r, "c")) // fm
+	u.Set("value19", floatValue(r, "speed"))
+	//u.Set("x", floatValue(r, "scale"))
+	//u.Set("x", floatValue(r, "perm"))
+	u.Set("value70", floatValue(r, "slew"))
+	u.Set("value77", floatValue(r, "root"))
+	u.Set("value4", floatValue(r, "square"))
+	u.Set("value39", floatValue(r, "amount"))
+	u.Set("value46", floatValue(r, "offset"))
+	u.Set("value13", floatValue(r, "attack"))
+	u.Set("value12", floatValue(r, "decay"))
+	u.Set("value29", floatValue(r, "time"))
+	u.Set("value27", floatValue(r, "feedback"))
 
 	frames := int(length / time.Second * 44100 / 256)
 	samp := u.Render(frames)

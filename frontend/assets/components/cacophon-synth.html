@@ -7,27 +7,54 @@
   <template>
     <style>
       #panel {
-        border-radius: 25px;
-        background: #333;
-        width: 340px;
-        padding: 20px;
-        text-align: center;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url(/images/background.jpg) no-repeat center top;
+      }
+      #controls {
+        position: absolute;
+        top: 105px;
+        width: 730px;
+        height: 477px;
+        /* center */
+        margin-left: 50%; left: -358px;
       }
 
-      #panel webaudio-knob {
-        margin: 0 5px;
-      }
-      
-      #panel button {
-        margin: 10px 5px;
-      }
+      #controls webaudio-knob { position: absolute; }
+
+      #controls #kSpeed { top: 137px; left: 56px; }
+      #controls #kScale { top: 137px; left: 176px; }
+      #controls #kPerm { top: 137px; left: 281px; }
+      #controls #kSlew { top: 137px; left: 394px; }
+
+      #controls #kRoot { top: 328px; left: 56px; }
+      #controls #kSquare { top: 328px; left: 168px; }
+      #controls #kAmount { top: 328px; left: 280px; }
+      #controls #kOffset { top: 328px; left: 394px; }
+
+      #controls #kAttack { top: 50px; left: 544px; }
+      #controls #kDecay { top: 140px; left: 544px; }
+
+      #controls #kTime { top: 260px; left: 544px; }
+      #controls #kFeedback { top: 350px; left: 544px; }
     </style>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <div id="panel">
-      <polymer-flex-layout></polymer-flex-layout>
-      <webaudio-knob id="knobA" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
-      <webaudio-knob id="knobB" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="100" step="1" sprites="100"></webaudio-knob>
-      <webaudio-knob id="knobC" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+      <div id="controls">
+        <polymer-flex-layout></polymer-flex-layout>
+        <webaudio-knob id="kSpeed" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kScale" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kPerm" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kSlew" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kRoot" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kSquare" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kAmount" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kOffset" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kAttack" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kDecay" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kTime" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <webaudio-knob id="kFeedback" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+      </div>
       <button type="button" class="btn btn-danger" on-click="{{ createSound }}" outline="none">⚫</button>
     </div>
   </template>
@@ -36,9 +63,18 @@
       createSound: function() {
         var socket = io.connect();
         var sound = {
-          a: this.$.knobA.value,
-          b: this.$.knobB.value,
-          c: this.$.knobC.value
+          speed: this.$.kSpeed.value,
+          scale: this.$.kScale.value,
+          perm: this.$.kPerm.value,
+          slew: this.$.kSlew.value,
+          root: this.$.kRoot.value,
+          square: this.$.kSquare.value,
+          amount: this.$.kAmount.value,
+          offset: this.$.kOffset.value,
+          attack: this.$.kAttack.value,
+          decay: this.$.kDecay.value,
+          time: this.$.kTime.value,
+          feedback: this.$.kFeedback.value
         };
         socket.post('/sounds', sound, function(response) {
         }.bind(this));
