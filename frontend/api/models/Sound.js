@@ -32,7 +32,7 @@ module.exports = {
       url: url,
       encoding: null
     }, function(err, response, body) {
-      if (err && response.statusCode == 200) {
+      if (err || response.statusCode != 200) {
         console.error('mp3 encoding failed:', err);
       } else {
         values.mp3 = body.toString('base64');
