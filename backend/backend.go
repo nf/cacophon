@@ -66,7 +66,6 @@ func floatValue(r *http.Request, name string) float64 {
 	} else if f < 0 {
 		f = 0
 	}
-	log.Println(name, f)
 	return f
 }
 
