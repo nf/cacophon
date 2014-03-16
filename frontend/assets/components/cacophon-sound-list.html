@@ -24,13 +24,15 @@
       },
       ready: function() {
         var socket = io.connect();
-        socket.get('/sounds?sort=id desc', function(response) {
+        socket.get('/sounds?shared=true&sort=id desc', function(response) {
           this.sounds = response;
         }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
-        detail.autoplay = 'autoplay';
-        this.sounds.unshift(detail);
+        if (detail.shared) {
+          detail.autoplay = 'autoplay';
+          this.sounds.unshift(detail);
+        }
       }
     });
   </script>
