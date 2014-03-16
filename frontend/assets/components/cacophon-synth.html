@@ -39,8 +39,10 @@
 
       #kTime { top: 260px; left: 544px; }
       #kFeedback { top: 350px; left: 544px; }
-      #play { top: 422px; left: 636px; }
-      #share { top: 422px; left: 677px; }
+
+      #play { top: 422px; left: 608px; }
+      #share { top: 422px; left: 650px; }
+
     </style>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <div id="panel">
@@ -58,7 +60,7 @@
         <webaudio-knob id="kTime" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <webaudio-knob id="kFeedback" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <button id="play" type="button" class="btn" on-click="{{ playSound }}" outline="none">▶</button>
-        <button id="share" type="button" class="btn btn-danger" on-click="{{ shareSound }}" outline="none">⚫</button>
+        <button id="share" type="button" class="btn btn-danger" on-click="{{ shareSound }}" outline="none">Share</button>
         <audio id="player"></audio>
       </div>
     </div>
