@@ -5,7 +5,16 @@
 <polymer-element name="cacophon-sound-list">
   <template>
     <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
-    <ul>
+    <style>
+      #soundList {
+        position: absolute;
+	top: 650px;
+	width: 350px;
+	margin-left: 50%;
+	left: -175px;
+      }
+    </style>
+    <ul id="soundList">
       <template repeat="{{ s in sounds }}">
         <li>
           <div>
