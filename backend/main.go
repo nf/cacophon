@@ -1,10 +1,10 @@
+// +build !appengine
+
 package main
 
 import (
 	"log"
 	"net/http"
-
-	_ "github.com/nf/cacophon/backend"
 )
 
 func main() {
