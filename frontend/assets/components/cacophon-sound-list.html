@@ -24,7 +24,7 @@
       },
       ready: function() {
         var socket = io.connect();
-        socket.get('/sounds?sort=id desc', function(response) {
+        socket.get('/sounds?shared=true&sort=id desc', function(response) {
           this.sounds = response;
         }.bind(this));
       },
