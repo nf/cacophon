@@ -3,8 +3,9 @@
 <link rel="import" href="/bower_components/webaudio-knob/webcomponents/knob.html">
 <link rel="import" href="sails-io.html">
 
-<polymer-element name="cacophon-synth">
+<polymer-element name="cacophon-synth" on-cancel="{{ playSound }}">
   <template>
+    <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
     <style>
       #panel {
         position: absolute;
@@ -21,27 +22,29 @@
       }
 
       #controls webaudio-knob { position: absolute; }
+      #controls button { position: absolute; }
 
-      #controls #kSpeed { top: 137px; left: 56px; }
-      #controls #kScale { top: 137px; left: 176px; }
-      #controls #kPerm { top: 137px; left: 281px; }
-      #controls #kSlew { top: 137px; left: 394px; }
+      #kSpeed { top: 137px; left: 56px; }
+      #kScale { top: 137px; left: 176px; }
+      #kPerm { top: 137px; left: 281px; }
+      #kSlew { top: 137px; left: 394px; }
 
-      #controls #kRoot { top: 328px; left: 56px; }
-      #controls #kSquare { top: 328px; left: 168px; }
-      #controls #kAmount { top: 328px; left: 280px; }
-      #controls #kOffset { top: 328px; left: 394px; }
+      #kRoot { top: 328px; left: 56px; }
+      #kSquare { top: 328px; left: 168px; }
+      #kAmount { top: 328px; left: 280px; }
+      #kOffset { top: 328px; left: 394px; }
 
-      #controls #kAttack { top: 50px; left: 544px; }
-      #controls #kDecay { top: 140px; left: 544px; }
+      #kAttack { top: 50px; left: 544px; }
+      #kDecay { top: 140px; left: 544px; }
 
-      #controls #kTime { top: 260px; left: 544px; }
-      #controls #kFeedback { top: 350px; left: 544px; }
+      #kTime { top: 260px; left: 544px; }
+      #kFeedback { top: 350px; left: 544px; }
+      #play { top: 422px; left: 636px; }
+      #share { top: 422px; left: 677px; }
     </style>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <div id="panel">
       <div id="controls">
-        <polymer-flex-layout></polymer-flex-layout>
         <webaudio-knob id="kSpeed" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <webaudio-knob id="kScale" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <webaudio-knob id="kPerm" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
@@ -54,13 +57,15 @@
         <webaudio-knob id="kDecay" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <webaudio-knob id="kTime" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <webaudio-knob id="kFeedback" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
+        <button id="play" type="button" class="btn" on-click="{{ playSound }}" outline="none">▶</button>
+        <button id="share" type="button" class="btn btn-danger" on-click="{{ shareSound }}" outline="none">⚫</button>
+        <audio id="player" controls></audio>
       </div>
-      <button type="button" class="btn btn-danger" on-click="{{ createSound }}" outline="none">⚫</button>
     </div>
   </template>
   <script>
     Polymer('cacophon-synth', {
-      createSound: function() {
+      postSound: function(options) {
         var socket = io.connect();
         var sound = {
           speed: this.$.kSpeed.value,
@@ -74,11 +79,32 @@
           attack: this.$.kAttack.value,
           decay: this.$.kDecay.value,
           time: this.$.kTime.value,
-          feedback: this.$.kFeedback.value
+          feedback: this.$.kFeedback.value,
         };
+        sound.author = socket.socket.sessionid;
+        if (options) {
+          Object.keys(options).forEach(function(k) {
+            sound[k] = options[k];
+          });
+        }
         socket.post('/sounds', sound, function(response) {
         }.bind(this));
-      }
+      },
+      playSound: function() {
+        this.postSound();
+      },
+      shareSound: function() {
+        this.postSound({shared: true});
+      },
+      soundCreated: function(e, detail, sender) {
+        var socket = io.connect();
+        if (!detail.shared && detail.author == socket.socket.sessionid) {
+          this.$.player.src = 'data:audio/mp3;base64,' + detail.mp3;
+          this.$.player.oncanplay = function() {
+            this.$.player.play();
+          }.bind(this);
+        }
+      },
     });
   </script>
 </polymer-element>

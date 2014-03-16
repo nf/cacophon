@@ -29,8 +29,10 @@
         }.bind(this));
       },
       soundCreated: function(e, detail, sender) {
-        detail.autoplay = 'autoplay';
-        this.sounds.unshift(detail);
+        if (detail.shared) {
+          detail.autoplay = 'autoplay';
+          this.sounds.unshift(detail);
+        }
       }
     });
   </script>
