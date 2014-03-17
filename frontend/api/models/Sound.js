@@ -28,8 +28,8 @@ module.exports = {
   beforeCreate: function(v, next) {
     var params = qs.stringify({
       speed: v.speed / 100.0,
-      scale: v.scale / 100.0,
-      perm: v.perm / 100.0,
+      scale: v.scale,
+      perm: v.perm,
       slew: v.slew / 100.0,
       root: v.root / 100.0,
       square: v.square / 100.0,

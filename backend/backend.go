@@ -14,12 +14,23 @@ import (
 )
 
 const (
-	length = 5 * time.Second
+	length = 10 * time.Second
 	inFile = "cacophon.patch"
 )
 
 func init() {
 	http.HandleFunc("/audio", audioHandler)
+}
+
+var seqNotes = map[int]string{
+	0: "value50",
+	1: "value51",
+	2: "value52",
+	3: "value53",
+	4: "value59",
+	5: "value58",
+	6: "value57",
+	7: "value56",
 }
 
 func audioHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,8 +42,6 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u.Set("value19", floatValue(r, "speed"))
-	//u.Set("x", floatValue(r, "scale"))
-	//u.Set("x", floatValue(r, "perm"))
 	u.Set("value70", floatValue(r, "slew"))
 	u.Set("value77", floatValue(r, "root"))
 	u.Set("value4", floatValue(r, "square"))
@@ -42,6 +51,15 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	u.Set("value12", floatValue(r, "decay"))
 	u.Set("value29", floatValue(r, "time"))
 	u.Set("value27", floatValue(r, "feedback"))
+
+	scale, perm := intValue(r, "scale"), intValue(r, "perm")
+	if 0 >= scale || scale >= len(scales) {
+		scale = 0
+	}
+	notes := notesFromScale(scales[scale], 8, perm)
+	for i, n := range notes {
+		u.Set(seqNotes[i], float64(n)/120)
+	}
 
 	frames := int(length / time.Second * 44100 / 256)
 	samp := u.Render(frames)
@@ -67,6 +85,11 @@ func floatValue(r *http.Request, name string) float64 {
 		f = 0
 	}
 	return f
+}
+
+func intValue(r *http.Request, name string) int {
+	i, _ := strconv.Atoi(r.FormValue(name))
+	return i
 }
 
 func mp3(pcm []byte) ([]byte, error) {
