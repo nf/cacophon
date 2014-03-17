@@ -64,6 +64,7 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	frames := int(length / time.Second * 44100 / 256)
 	samp := u.Render(frames)
 	normalize(samp)
+	fadeout(samp, 44100)
 	b, err := mp3(pcm(samp))
 	if err != nil {
 		log.Println(err)
@@ -126,6 +127,14 @@ func normalize(s []audio.Sample) {
 		fac := 0.99 / max
 		for i := range s {
 			s[i] *= fac
+		}
+	}
+}
+
+func fadeout(s []audio.Sample, samples int) {
+	for i := range s {
+		if r := len(s) - i; r < samples {
+			s[i] *= audio.Sample(r) / audio.Sample(samples)
 		}
 	}
 }
