@@ -45,3 +45,5 @@ nbproject
 config/local.js
 
 assets/bower_components/
+key.pem
+cert.pem
