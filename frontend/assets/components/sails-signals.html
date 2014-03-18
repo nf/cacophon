@@ -9,9 +9,9 @@
         
         ready: function() {
           $.get('/discover', function(data) {
-            this.socket = io.connect(data.websocket);
-            this.socket.on('connected', function() {
-    this.fire('polymer-signal', {name: 'sails-connected', data: {'socket': this.socket}});
+            var socket = io.connect(data.websocket);
+            socket.on('connect', function() {
+    this.fire('polymer-signal', {name: 'sails-connected', data: {'socket': socket}});
     }.bind(this));
             socket.on('message', function (message) {
               var name = 'sails-' + message.model + '-' + message.verb;
