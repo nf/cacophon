@@ -29,7 +29,7 @@ module.exports = {
   render: function(req, res) {
     Sound.findOne(req.param('id')).exec(function (err, sound) {
       if (err) {
-        return res.send(err, 500);
+        return res.send(500, err);
       }
       if (!sound.mp3) {
         return res.send('sound #' + req.param('id') + ' has no mp3 data', 415);
@@ -46,4 +46,14 @@ module.exports = {
     Sound.subscribe(req.socket);
     res.send(200);
   },
+
+  preview: function(req, res) {
+    SynthService.encode(req.body, function(err, mp3) {
+      if (err) {
+        return res.send(500, err);
+      }
+      req.body.mp3 = mp3;
+      res.send(req.body);
+    });
+  }
 };

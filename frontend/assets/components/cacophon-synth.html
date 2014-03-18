@@ -2,10 +2,10 @@
 <link rel="import" href="/bower_components/polymer-flex-layout/polymer-flex-layout.html">
 <link rel="import" href="/bower_components/webaudio-knob/webcomponents/knob.html">
 <link rel="import" href="sails-io.html">
+<link rel="import" href="mp3-player.html">
 
 <polymer-element name="cacophon-synth" on-cancel="{{ playSound }}">
   <template>
-    <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
     <polymer-signals on-polymer-signal-sails-connected="{{ connected }}"></polymer-signals>
     <style>
       #panel {
@@ -62,7 +62,7 @@
         <webaudio-knob id="kFeedback" src="/bower_components/webaudio-knob/img/MiniBrute.png" min="0" max="100" value="0" step="1" sprites="100"></webaudio-knob>
         <button id="play" type="button" class="btn" on-click="{{ playSound }}" outline="none">▶</button>
         <button id="share" type="button" class="btn btn-danger" on-click="{{ shareSound }}" outline="none">Share</button>
-        <audio id="player"></audio>
+        <mp3-player id="player"></mp3-player>
       </div>
     </div>
   </template>
@@ -71,8 +71,8 @@
       connected: function(e, detail, sender) {
         this.socket = detail.socket;
       },
-      postSound: function(options) {
-        var sound = {
+      getSoundParams: function() {
+        return {
           speed: this.$.kSpeed.value,
           scale: this.$.kScale.value,
           perm: this.$.kPerm.value,
@@ -86,29 +86,19 @@
           time: this.$.kTime.value,
           feedback: this.$.kFeedback.value,
         };
-        sound.author = this.socket.socket.sessionid;
-        if (options) {
-          Object.keys(options).forEach(function(k) {
-            sound[k] = options[k];
-          });
-        }
-        this.socket.post('/sounds', sound, function(response) {
-        }.bind(this));
       },
       playSound: function() {
-        this.postSound();
+        var sound = this.getSoundParams()
+        this.socket.post('/sounds/preview', sound, function(res) {
+           this.$.player.play(res.mp3);
+        }.bind(this))
       },
       shareSound: function() {
-        this.postSound({shared: true});
-      },
-      soundCreated: function(e, detail, sender) {
-        if (!detail.shared && detail.author == this.socket.socket.sessionid) {
-          this.$.player.src = 'data:audio/mp3;base64,' + detail.mp3;
-          this.$.player.oncanplay = function() {
-            this.$.player.play();
-          }.bind(this);
-        }
-      },
+        var sound = this.getSoundParams()
+        sound.author = this.socket.socket.sessionid;
+        this.socket.post('/sounds', sound, function(response) {
+        }.bind(this));
+      }
     });
   </script>
 </polymer-element>

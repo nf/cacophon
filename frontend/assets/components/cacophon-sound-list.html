@@ -30,10 +30,8 @@
         this.sounds = [];
       },
       soundCreated: function(e, detail, sender) {
-        if (detail.shared) {
-          detail.autoplay = 'autoplay';
-          this.sounds.unshift(detail);
-        }
+        detail.autoplay = 'autoplay';
+        this.sounds.unshift(detail);
       }
     });
   </script>

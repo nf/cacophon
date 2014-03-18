@@ -1,0 +1,15 @@
+<polymer-element name="mp3-player">
+  <template>
+    <audio id="player"></audio>
+  </template>
+  <script>
+    Polymer('mp3-player', {
+      play: function(mp3) {
+        this.$.player.src = 'data:audio/mp3;base64,' + mp3;
+        this.$.player.oncanplay = function() {
+          this.$.player.play();
+        }.bind(this);
+      }
+    });
+  </script>
+</polymer-element>

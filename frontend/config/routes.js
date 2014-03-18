@@ -37,6 +37,7 @@ module.exports.routes = {
   },
 
   '/sounds/subscribe': 'SoundController.subscribe',
+  '/sounds/preview': 'SoundController.preview',
   '/sounds/:id/render': 'SoundController.render',
   '/discover': 'DiscoveryController.discover',
   /*
