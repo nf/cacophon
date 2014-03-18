@@ -27,6 +27,7 @@
     "webaudio-knob": "proppy/webaudio-knob#patch-1",
     "polymer": "Polymer/polymer#~0.2.1",
     "polymer-signals": "Polymer/polymer-signals#~0.2.1",
-    "polymer-flex-layout": "PolymerLabs/polymer-flex-layout#~0.2.1"
+    "polymer-flex-layout": "PolymerLabs/polymer-flex-layout#~0.2.1",
+    "jquery": "~2.1.0"
   }
 }

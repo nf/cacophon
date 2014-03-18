@@ -1,6 +1,4 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/polymer-flex-layout/polymer-flex-layout.html">
-<link rel="import" href="sails-io.html">
 
 <polymer-element name="cacophon-sound-list">
   <template>
@@ -31,17 +29,9 @@
       created: function() {
         this.sounds = [];
       },
-      ready: function() {
-        var socket = io.connect();
-        socket.get('/sounds?shared=true&sort=id desc', function(response) {
-          this.sounds = response;
-        }.bind(this));
-      },
       soundCreated: function(e, detail, sender) {
-        if (detail.shared) {
-          detail.autoplay = 'autoplay';
-          this.sounds.unshift(detail);
-        }
+        detail.autoplay = 'autoplay';
+        this.sounds.unshift(detail);
       }
     });
   </script>
