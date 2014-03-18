@@ -1,0 +1,17 @@
+application: cacophon-app
+module: frontend
+version: 1
+runtime: nodejs
+api_version: 1
+vm: true
+
+manual_scaling:
+  instances: 1
+
+vm_settings:
+  preserve_vm_on_failure: true
+
+handlers:
+- url: /.*
+  script: server.js
+
