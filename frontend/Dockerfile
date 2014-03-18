@@ -1,0 +1,20 @@
+FROM private/vmruntime-python
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get install --no-install-recommends -y -q --force-yes wget git
+RUN wget -q http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-x64.tar.gz && tar xvzf node-v0.10.26-linux-x64.tar.gz && rm node-v0.10.26-linux-x64.tar.gz
+
+ENV PATH $PATH:/node-v0.10.26-linux-x64/bin
+
+RUN npm -g install bower
+
+WORKDIR /nodejs_app
+ADD package.json /nodejs_app/
+RUN npm install
+ADD bower.json /nodejs_app/
+ADD .bowerrc /nodejs_app/
+RUN bower install --allow-root --config.interactive=false
+ADD . /nodejs_app/
+
+EXPOSE 8080
+CMD ["/node-v0.10.26-linux-x64/bin/node", "/nodejs_app/server.js"]
