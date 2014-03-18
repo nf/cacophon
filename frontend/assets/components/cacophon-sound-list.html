@@ -32,7 +32,7 @@
       },
       connected: function(e, detail, sender) {
         var socket = detail.socket;
-        socket.get('/sounds?limit=0, function(response) {
+        socket.get('/sounds?limit=0', function(response) {
           this.sounds = response;
         }.bind(this));
       },
