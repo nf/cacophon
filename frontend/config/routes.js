@@ -36,6 +36,7 @@ module.exports.routes = {
     view: 'home/index'
   },
 
+  '/sounds/subscribe': 'SoundController.subscribe',
   '/sounds/:id/render': 'SoundController.render',
   '/discover': 'DiscoveryController.discover',
   /*

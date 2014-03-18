@@ -3,7 +3,6 @@
 <polymer-element name="cacophon-sound-list">
   <template>
     <polymer-signals on-polymer-signal-sails-sound-create="{{ soundCreated }}"></polymer-signals>
-    <polymer-signals on-polymer-signal-sails-connected="{{ connected }}"></polymer-signals>
     <style>
       #soundList {
         position: absolute;
@@ -29,14 +28,6 @@
     Polymer('cacophon-sound-list', {
       created: function() {
         this.sounds = [];
-      },
-      connected: function(e, detail, sender) {
-        var socket = detail.socket;
-        socket.get('/sounds?limit=0', function(response) {
-          this.sounds = response;
-        }.bind(this));
-      },
-      ready: function() {
       },
       soundCreated: function(e, detail, sender) {
         if (detail.shared) {

@@ -41,4 +41,9 @@ module.exports = {
       s.pipe(base64.decode()).pipe(res);
     });
   },
+
+  subscribe: function(req, res) {
+    Sound.subscribe(req.socket);
+    res.send(200);
+  },
 };
