@@ -6,7 +6,7 @@ module.exports = {
           return res.send(500, err);
         }
         res.send({
-          https: 'https://'+data':8080',
+          https: 'https://'+data+':8080',
           websocket: 'wss://'+data+':8080'
         });
       });
