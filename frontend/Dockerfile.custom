@@ -1,0 +1,12 @@
+FROM private/vmruntime-python
+
+ADD bootstrap.sh /app/
+RUN /app/bootstrap.sh
+
+ADD . /app/
+
+RUN /app/build.sh
+
+WORKDIR /app/
+EXPOSE 8080
+CMD ["/app/run.sh"]
