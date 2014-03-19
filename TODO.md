@@ -5,3 +5,6 @@
 - add backend discovery
 - add polymer component for waveform
 - add presence
+- add reset button
+- stop mp3-player when sharing
+- equalize sounds list to number of sounds
