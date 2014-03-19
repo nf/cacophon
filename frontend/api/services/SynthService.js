@@ -1,6 +1,14 @@
 var qs = require('querystring');
 var request = require('request');
 
+function discoverBackend(cb) {
+    if (process.env.GAE_VM) {
+      MetadataService.get('/project/attributes/cacophon-backend', cb);
+    } else {
+      cb(nil, 'http://localhost:8080');
+    }
+}
+
 module.exports = {
   encode: function(v, cb) {
     var params = qs.stringify({
@@ -17,23 +25,32 @@ module.exports = {
       time: v.time / 100.0,
       feedback: v.feedback / 100.0
     });
-    var url = 'http://localhost:8080/audio?' + params;
-    request({
-      method: 'GET',
-      url: url,
-      encoding: null
-    }, function(err, response, body) {
-      if (err || response.statusCode != 200) {
-        var error = {
-          message: 'mp3 encoding failed',
-          statusCode: response.statusCode,
-          err: err
-        };
-        console.error('SynthService.encode', error);
-        cb(error, null);
-      } else {
-        cb(null, body.toString('base64'));
+    discoverBackend(function(err, backend) {
+      if (err) {
+        cb(err, null);
+        return;
       }
+      var url = backend + '/audio?' + params;
+      request({
+        method: 'GET',
+        url: url,
+        encoding: null
+      }, function(err, response, body) {
+        if (err || response.statusCode != 200) {
+          var error = {
+            message: 'mp3 encoding failed',
+            backend_url: url,
+            err: err
+          };
+          if (response) {
+            error.statusCode = response.statusCode;
+          }
+          console.error('SynthService.encode', error);
+          cb(error, null);
+        } else {
+          cb(null, body.toString('base64'));
+        }
+      });
     });
   }
 }

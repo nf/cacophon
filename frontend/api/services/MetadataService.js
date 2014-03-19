@@ -13,9 +13,12 @@ module.exports = {
       if (err || response.statusCode != 200) {
         var error = {
           message: 'metadata request failed',
-          statusCode: response.statusCode,
+          key: key,
           err: err
         };
+        if (response) {
+          error.statusCode = response.statusCode;
+        }
         console.error('MetadataService.get', error);
         cb(error, null);
       } else {
