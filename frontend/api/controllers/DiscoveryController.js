@@ -6,18 +6,17 @@ module.exports = {
           return res.send(500, err);
         }
         res.send({
-          https: 'https://'+data+':8080',
-          websocket: 'wss://'+data+':8080'
+          websocket: '//'+data+':8080'
         });
       });
     } else {
       res.send({
-        https: 'https://localhost::8080',
-        websocket: 'wss://localhost:1337'
+        websocket: '//localhost:1337'
       });
     }
   },
   cookie: function(req, res) {
-    res.send(200);
+    res.set('Content-Type', 'text/javascript');
+    res.send(200, req.query.callback+'()');
   }
 }

@@ -9,9 +9,9 @@
 
         ready: function() {
             if (this.discover) {
-              $.get(this.discover, function(data) {
-                $.getJSON(data.https + this.cookie + '?callback=?&_=[TIMESTAMP]', function(data) {
-                  this.connect(data.websocket);
+              $.get(this.discover, function(discovery) {
+                $.getJSON(discovery.websocket + this.cookie + '?callback=?&_=[TIMESTAMP]', function(data) {
+                  this.connect(discovery.websocket);
                 }.bind(this));
               }.bind(this))
             } else {
