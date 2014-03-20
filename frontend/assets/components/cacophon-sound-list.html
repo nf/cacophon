@@ -1,6 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/polymer-signals/polymer-signals.html">
-<link rel="import" href="/bower_components/polymer-audio-player/audio-player.html">
+<link rel="import" href="/bower_components/webaudio-buffer-draw/webaudio-buffer-draw.html">
 
 <polymer-element name="cacophon-sound-list">
   <template>
@@ -13,7 +13,7 @@
 	margin-left: 50%;
 	left: -175px;
       }
-      audio-player {
+      webaudio-buffer-draw {
         background: grey;
       }
     </style>
@@ -24,7 +24,7 @@
             <a href="/sounds/{{ s.id }}">/sounds/{{ s.id }}</a>
             <span>{{ s.createdAt }}</span>
           </div>
-          <audio-player src="data:audio/mp3;base64,{{ s.mp3 }}"></audio-player>
+          <webaudio-buffer-draw src="data:audio/mp3;base64,{{ s.mp3 }}"></webaudio-buffer-draw>
         </li>
       </template>
     </ul>
