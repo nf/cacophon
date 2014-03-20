@@ -35,6 +35,9 @@
         } else {
           this.players[detail.author] = detail.author;
           this.keys = Object.keys(this.players);
+          this.async(function() {
+            this.shadowRoot.querySelector('#player-' + detail.author).play(detail);
+          });
         }
       }
     });
