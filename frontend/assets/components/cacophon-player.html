@@ -1,0 +1,27 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/webaudio-buffer-draw/webaudio-buffer-draw.html">
+
+<polymer-element name="cacophon-player" attributes="name">
+  <template>
+    <style>
+    webaudio-buffer-draw {
+      background: grey;
+    }
+    </style>
+  </template>
+  <script>
+    Polymer('cacophon-player', {
+      ready: function() {
+      },
+      play: function(sound) {
+        if (this.drawer) {
+          this.drawer.stop();
+          this.shadowRoot.removeChild(this.drawer);
+        }
+        this.drawer = document.createElement('webaudio-buffer-draw');
+        this.shadowRoot.appendChild(this.drawer);
+        this.drawer.play64(sound.mp3);
+      },
+    });
+  </script>
+</polymer-element>
