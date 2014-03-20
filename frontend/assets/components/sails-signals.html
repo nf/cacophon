@@ -8,6 +8,7 @@
     Polymer('sails-signals', {
 
         ready: function() {
+            console.log('sails-signal socket: connecting');
             if (this.discover) {
               $.get(this.discover, function(discovery) {
                 $.getJSON(discovery.websocket + this.cookie + '?callback=?&_=[TIMESTAMP]', function(data) {
@@ -19,9 +20,9 @@
             }
         },
         connect: function(uri) {
-            var socket = io.connect(uri);
+            window.socket = io.connect(uri);
             socket.on('connect', function() {
-              this.fire('polymer-signal', {name: 'sails-connected', data: {'socket': socket}});
+              console.log('sails-signal socket: connected');
               if (this.subscribe) {
                 socket.post(this.subscribe, function(data) {
                 });

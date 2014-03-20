@@ -6,7 +6,6 @@
 
 <polymer-element name="cacophon-synth" on-cancel="{{ playSound }}">
   <template>
-    <polymer-signals on-polymer-signal-sails-connected="{{ connected }}"></polymer-signals>
     <style>
       #panel {
         position: absolute;
@@ -68,9 +67,6 @@
   </template>
   <script>
     Polymer('cacophon-synth', {
-      connected: function(e, detail, sender) {
-        this.socket = detail.socket;
-      },
       getSoundParams: function() {
         return {
           speed: this.$.kSpeed.value,
@@ -89,14 +85,14 @@
       },
       playSound: function() {
         var sound = this.getSoundParams()
-        this.socket.post('/sounds/preview', sound, function(res) {
+        socket.post('/sounds/preview', sound, function(res) {
            this.$.player.play(res.mp3);
         }.bind(this))
       },
       shareSound: function() {
         var sound = this.getSoundParams()
-        sound.author = this.socket.socket.sessionid;
-        this.socket.post('/sounds', sound, function(response) {
+        sound.author = socket.socket.sessionid;
+        socket.post('/sounds', sound, function(response) {
         }.bind(this));
       }
     });
