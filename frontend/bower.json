@@ -24,11 +24,12 @@
     "bootstrap": "~3.1.1",
     "bower-sails.io": "~0.0.1",
     "socket.io-client": "~0.9.16",
-    "webaudio-knob": "proppy/webaudio-knob#patch-1",
+    "webaudio-controls": "proppy/webaudio-controls",
     "polymer": "Polymer/polymer#~0.2.1",
     "polymer-signals": "Polymer/polymer-signals#~0.2.1",
     "polymer-flex-layout": "PolymerLabs/polymer-flex-layout#~0.2.1",
     "jquery": "~2.1.0",
-    "jquery-cookie": "~1.4.0"
+    "jquery-cookie": "~1.4.0",
+    "webaudio-buffer-draw": "proppy/webaudio-buffer-draw"
   }
 }

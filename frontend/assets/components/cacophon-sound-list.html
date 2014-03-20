@@ -1,4 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer-signals/polymer-signals.html">
+<link rel="import" href="cacophon-player.html">
 
 <polymer-element name="cacophon-sound-list">
   <template>
@@ -13,13 +15,9 @@
       }
     </style>
     <ul id="soundList">
-      <template repeat="{{ s in sounds }}">
+      <template repeat="{{ k in keys }}">
         <li>
-          <div>
-            <a href="/sounds/{{ s.id }}">/sounds/{{ s.id }}</a>
-            <span>{{ s.createdAt }}</span>
-          </div>
-          <audio src="data:audio/mp3;base64,{{ s.mp3 }}" controls autoplay?="{{ s.autoplay }}"></audio>
+          <cacophon-player id="player-{{ k }}" name="{{ k }}"></cacophon-player>
         </li>
       </template>
     </ul>
@@ -27,11 +25,17 @@
   <script>
     Polymer('cacophon-sound-list', {
       created: function() {
-        this.sounds = [];
+        this.players = {};
+        this.keys = [];
       },
       soundCreated: function(e, detail, sender) {
-        detail.autoplay = 'autoplay';
-        this.sounds.unshift(detail);
+        var player = this.shadowRoot.querySelector('#player-' + detail.author);
+        if (player) {
+           player.play(detail);
+        } else {
+          this.players[detail.author] = detail.author;
+          this.keys = Object.keys(this.players);
+        }
       }
     });
   </script>

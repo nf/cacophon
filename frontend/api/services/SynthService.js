@@ -5,7 +5,7 @@ function discoverBackend(cb) {
     if (process.env.GAE_VM) {
       MetadataService.get('/project/attributes/cacophon-backend', cb);
     } else {
-      cb(nil, 'http://localhost:8080');
+      cb(null, 'http://localhost:8080');
     }
 }
 

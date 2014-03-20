@@ -1,7 +1,11 @@
 FROM private/vmruntime-python
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install  -y --no-install-recommends  --force-yes lame 
+
+ADD app.yaml /appgo/
+ADD install_deps.sh /appgo/
+RUN /appgo/install_deps.sh /appgo/app.yaml
+
 ADD . /appgo
 WORKDIR /appgo
 
