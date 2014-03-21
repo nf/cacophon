@@ -16,10 +16,14 @@ module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'memory',
+  'default': 'disk',
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data is preserved when the server shuts down)
+  memory: {
+    module: 'sails-memory'
+  },
+
   disk: {
     module: 'sails-disk'
   },
