@@ -2,7 +2,11 @@
 
 package main
 
-import _ "google.golang.org/appengine/internal"
+import (
+	_ "google.golang.org/appengine"
+	internal "google.golang.org/appengine/internal"
+)
 
-func init() {
+func main() {
+	internal.Main()
 }

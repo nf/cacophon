@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"log"
 	"net/http"
 	"os/exec"
@@ -19,6 +20,7 @@ const (
 )
 
 func init() {
+	http.HandleFunc("/", mainHandler)
 	http.HandleFunc("/audio", audioHandler)
 }
 
@@ -31,6 +33,17 @@ var seqNotes = map[int]string{
 	5: "value58",
 	6: "value57",
 	7: "value56",
+}
+
+const mainPage = `<html><body>
+<ul>
+<li><a href="/audio?speed=0.5&scale=0&perm=0&slew=0&root=0.5&square=0&amount=0&offset=0.5&attack=0&decay=0.25&time=0&feedback=0">/audio?speed=0.5&scale=0&perm=0&slew=0&root=0.5&square=0&amount=0&offset=0.5&attack=0&decay=0.25&time=0&feedback=0</a></li>
+<li><a href="/audio?speed=0.75&scale=0&perm=0&slew=0.07&root=0.5&square=0&amount=0&offset=0.5&attack=0.23&decay=0.25&time=0.54&feedback=0.26">/audio?speed=0.75&scale=0&perm=0&slew=0.07&root=0.5&square=0&amount=0&offset=0.5&attack=0.23&decay=0.25&time=0.54&feedback=0.26</a></li>
+<li><a href="/audio?speed=1&scale=36&perm=100&slew=0.42&root=1&square=1&amount=1&offset=0.98&attack=1&decay=1&time=0&feedback=0">/audio?speed=1&scale=36&perm=100&slew=0.42&root=1&square=1&amount=1&offset=0.98&attack=1&decay=1&time=0&feedback=0</a></li>
+</body></html>`
+
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, mainPage)
 }
 
 func audioHandler(w http.ResponseWriter, r *http.Request) {
