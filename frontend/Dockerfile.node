@@ -1,7 +1,7 @@
-FROM private/vmruntime-python
+FROM private/vmruntime-base
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install --no-install-recommends -y -q --force-yes curl git
+RUN apt-get update && apt-get install --no-install-recommends -y -q --force-yes curl git build-essential
 RUN curl http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-x64.tar.gz | tar xvzf -
 
 ENV PATH $PATH:/node-v0.10.26-linux-x64/bin

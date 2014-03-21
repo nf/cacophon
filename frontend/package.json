@@ -11,7 +11,8 @@
         "ejs": "0.8.4",
         "optimist": "0.3.4",
         "request": "2.34.0",
-        "base64-stream": "0.1.2"
+        "base64-stream": "0.1.2",
+        "netroute": "0.2.3"
     },
     "main": "server.js",
     "repository": "",

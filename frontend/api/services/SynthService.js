@@ -1,14 +1,6 @@
 var qs = require('querystring');
 var request = require('request');
 
-function discoverBackend(cb) {
-    if (process.env.GAE_VM) {
-      MetadataService.get('/project/attributes/cacophon-backend', cb);
-    } else {
-      cb(null, 'http://localhost:8080');
-    }
-}
-
 module.exports = {
   encode: function(v, cb) {
     var params = qs.stringify({
@@ -25,7 +17,7 @@ module.exports = {
       time: v.time / 100.0,
       feedback: v.feedback / 100.0
     });
-    discoverBackend(function(err, backend) {
+    DiscoveryService.discoverBackend(function(err, backend) {
       if (err) {
         cb(err, null);
         return;
