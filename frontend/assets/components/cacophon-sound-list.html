@@ -1,6 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/polymer-signals/polymer-signals.html">
 <link rel="import" href="cacophon-player.html">
+<script src="/bower_components/seedrandom/seedrandom.min.js"></script>
 
 <polymer-element name="cacophon-sound-list">
   <template>
@@ -17,7 +18,7 @@
     <ul id="soundList">
       <template repeat="{{ k in keys }}">
         <li>
-          <cacophon-player id="player-{{ k }}" name="{{ k }}"></cacophon-player>
+          <cacophon-player id="player-{{ k }}" name="{{ k }}" color="{{ players[k] }}"></cacophon-player>
         </li>
       </template>
     </ul>
@@ -33,8 +34,12 @@
         if (player) {
            player.play(detail);
         } else {
-          this.players[detail.author] = detail.author;
+          Math.seedrandom(detail.author);
+          this.players[detail.author] = '#'+Math.floor(Math.random()*16777215).toString(16); // @paul_irish magic
           this.keys = Object.keys(this.players);
+          this.async(function() {
+            this.shadowRoot.querySelector('#player-' + detail.author).play(detail);
+          });
         }
       }
     });
