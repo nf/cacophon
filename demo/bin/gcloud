@@ -1,0 +1,40 @@
+#!/bin/bash 
+
+set -ex
+
+COMMAND=$2
+APP_DIR=$3
+DOCKER_HOST=${DOCKER_HOST:?"DOCKER_HOST not defined"}
+VMRUNTIME_BASE_IMAGE=${VMRUNTIME_BASE_IMAGE:?"VMRUNTIME_BASE_IMAGE not defined"}
+
+get_app_env()
+{
+    APP_DIR=$(readlink -f ${APP_DIR:-$(pwd)})
+    APP_DIR=${APP_DIR/\/demo/}
+    APP_ID=$(sed -n 's/application: //p' ${APP_DIR}/app.yaml)
+    MODULE=$(sed -n 's/module: //p' ${APP_DIR}/app.yaml)
+    RUNTIME=$(sed -n 's/runtime: //p' ${APP_DIR}/app.yaml)
+    AUTHOR=$(whoami)
+    IMAGE=${AUTHOR}/${APP_ID}-${MODULE}
+}
+
+case "$2" in
+"init")
+        docker pull ${VMRUNTIME_BASE_IMAGE}
+        docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-base
+        docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-go
+        ;;
+"run")
+        get_app_env
+        [ $RUNTIME="go" ] &&  (cd ${APP_DIR} && ~/go_appengine/goapp build -x -work -tags appengine -o _go_app.bin .)
+        docker build --rm=true -t ${IMAGE} ${APP_DIR}
+        ~/go_appengine/dev_appserver.py --skip_sdk_update_check  --docker_daemon_url=tcp://172.17.42.1:4243 --api_host=172.17.42.1 --api_port=51515  ${APP_DIR}
+        ;;
+"deploy")
+        get_app_env
+        echo "deploy"
+        ;;
+"")
+        echo "usage: gcloud <init | run | deploy> [directory]" 
+        ;;
+esac
