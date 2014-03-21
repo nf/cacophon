@@ -9,7 +9,6 @@ manual_scaling:
   instances: 1
 
 vm_settings:
-  preserve_vm_on_failure: true
   apt_get_install: lame
 
 handlers:
