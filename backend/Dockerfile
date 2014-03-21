@@ -1,4 +1,4 @@
-FROM private/vmruntime-python
+FROM private/vmruntime-go
 
 ENV DEBIAN_FRONTEND noninteractive
 

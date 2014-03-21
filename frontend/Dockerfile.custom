@@ -1,4 +1,4 @@
-FROM private/vmruntime-python
+FROM private/vmruntime-base
 
 ADD bootstrap.sh /app/
 RUN /app/bootstrap.sh

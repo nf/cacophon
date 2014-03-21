@@ -42,6 +42,7 @@ module.exports.routes = {
   '/discover': 'DiscoveryController.discover',
   '/cookie': 'DiscoveryController.cookie',
   '/_ah/health': 'VmRuntimeController.health',
+  '/_ah/start': 'VmRuntimeController.start',
   /*
   // But what if you want your home page to display
   // a signup form located at `views/user/signup.ejs`?
