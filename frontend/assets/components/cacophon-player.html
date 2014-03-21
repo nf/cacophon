@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/webaudio-buffer-draw/webaudio-buffer-draw.html">
 
-<polymer-element name="cacophon-player" attributes="name">
+<polymer-element name="cacophon-player" attributes="name color">
   <template>
     <style>
     webaudio-buffer-draw {
@@ -11,6 +11,7 @@
   </template>
   <script>
     Polymer('cacophon-player', {
+      color: 'black',
       ready: function() {
       },
       play: function(sound) {
@@ -19,6 +20,7 @@
           this.shadowRoot.removeChild(this.drawer);
         }
         this.drawer = document.createElement('webaudio-buffer-draw');
+        this.drawer.color = this.color;
         this.shadowRoot.appendChild(this.drawer);
         this.drawer.play64(sound.mp3);
       },
