@@ -7,6 +7,7 @@ COMMAND=$1
 shift
 DOCKER_HOST=${DOCKER_HOST:?"DOCKER_HOST not defined"}
 VMRUNTIME_BASE_IMAGE=${VMRUNTIME_BASE_IMAGE:?"VMRUNTIME_BASE_IMAGE not defined"}
+ADMIN_CONSOLE_FLAG=${ADMIN_CONSOLE_FLAG:-}
 
 get_app_env()
 {
@@ -24,6 +25,9 @@ case "${COMMAND}" in
         docker pull ${VMRUNTIME_BASE_IMAGE}
         docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-base
         docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-go
+        docker kill registry || true
+        docker rm registry || true
+        docker run -d -p 5000:5000 -name registry proppy/registry
         ;;
 "run")
         APP_DIRS=""
@@ -42,9 +46,18 @@ case "${COMMAND}" in
         done
         ~/go_appengine/dev_appserver.py --skip_sdk_update_check  --docker_daemon_url=tcp://172.17.42.1:4243 --api_host=172.17.42.1 --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started on port \(.*\)/[gcloud] module '\1' started on http:\/\/localhost:\2/p"
         ;;
-    "deploy")
-        get_app_env
-        echo "deploy"
+    "update")
+        APP_DIRS=""
+        for APP_DIR in "$@"
+        do
+            set -x
+            get_app_env
+            APP_DIRS="${APP_DIRS} ${APP_DIR}"
+            docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR}
+            docker push localhost:5000/${IMAGE}
+            ~/go_appengine/appcfg.py -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update ${APP_DIR}/deploy/
+            ~/go_appengine/appcfg.py -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} debug ${APP_DIR}/deploy/
+        done
         ;;
 "")
         echo "usage: gcloud <init | run | deploy> [directory]" 
