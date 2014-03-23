@@ -1,7 +1,7 @@
 application: cacophon-demo
 module: backend
 version: 1
-runtime: docker://localhost:5000/proppy/cacophon-backend
+runtime: docker://localhost:5000/proppy/cacophon-demo-backend
 api_version: go1
 vm: true
 
