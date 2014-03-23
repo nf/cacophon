@@ -1,7 +1,5 @@
 var os = require('os');
 var request = require('request');
-var netroute = require('netroute');
-var backend_name = 'backend_0';
 
 module.exports = {
   discoverExternalIP: function(cb) {
