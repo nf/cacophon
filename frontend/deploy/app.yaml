@@ -1,4 +1,4 @@
-application: proppy-vm
+application: cacophon-demo
 module: frontend
 version: 1
 runtime: docker://localhost:5000/proppy/cacophon-frontend
@@ -9,10 +9,9 @@ manual_scaling:
   instances: 1
 
 vm_settings:
-  docker_bucket: proppy-vm-docker-images
+  docker_bucket: cacophon-images
   preserve_vm_on_failure: true
 
 handlers:
 - url: /.*
   script: server.js
-

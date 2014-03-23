@@ -1,4 +1,4 @@
-application: cacophon
+application: cacophon-demo
 runtime: go
 module: backend
 version: 1

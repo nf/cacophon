@@ -1,4 +1,4 @@
-application: cacophon
+application: cacophon-demo
 runtime: custom
 module: frontend
 version: 1
@@ -7,9 +7,6 @@ vm: true
 
 manual_scaling:
   instances: 1
-
-vm_settings:
-  preserve_vm_on_failure: true
 
 handlers:
 - url: /.*
