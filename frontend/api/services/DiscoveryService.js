@@ -12,7 +12,7 @@ module.exports = {
 
   discoverDispatcher: function() {
     if (process.env.GAE_VM) {
-      return process.env.APP_ID + '.appspot.com';
+      return process.env.GAE_LONG_APP_ID + '.appspot.com';
     } else {
       return process.env.DISPATCHER_HOST + ':8080';
     }
