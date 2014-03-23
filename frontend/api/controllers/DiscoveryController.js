@@ -1,11 +1,11 @@
 module.exports = {
   discover: function(req, res) {
-    DiscoveryService.discoverWebsocket(function(err, ip) {
+    DiscoveryService.discoverExternalIP(function(err, ip) {
       if (err) {
         return res.send(500, err);
       }
       res.send({
-        websocket: '//'+ip+':8080'
+        websocket: '//'+ip+':'+sails.config.port
       });
     });
   },
