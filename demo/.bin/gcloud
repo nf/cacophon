@@ -37,15 +37,15 @@ case "${COMMAND}" in
         do
             get_app_env
             APP_DIRS="${APP_DIRS} ${APP_DIR}"
-            if [ "$RUNTIME" == "go" ]; then
-                echo "[gcloud] build module '$MODULE': started"
+            if [ "${RUNTIME}" == "go" ]; then
+                echo "[gcloud] build module '${MODULE}': started"
                 (cd ${APP_DIR} && ~/go_appengine/goapp build -tags appengine -o _go_app.bin .)
-                echo "[gcloud] build module '$MODULE': done"
+                echo "[gcloud] build module '${MODULE}': done"
             fi
             if [ "$VM" == "true" ]; then
-                echo "[gcloud] build container '$IMAGE': started"
+                echo "[gcloud] build container '${IMAGE}': started"
                 docker build -q --rm=true -t ${IMAGE} ${APP_DIR} > /dev/null 2>&1
-                echo "[gcloud] build container '$IMAGE': done"
+                echo "[gcloud] build container '${IMAGE}': done"
             fi
             if [ -e ${APP_DIR}/dispatch.yaml ]; then
                 APP_DIRS="${APP_DIR}/dispatch.yaml ${APP_DIRS}"
@@ -58,15 +58,25 @@ case "${COMMAND}" in
         APP_DIRS=""
         for APP_DIR in "$@"
         do
-            set -x
             get_app_env
             APP_DIRS="${APP_DIRS} ${APP_DIR}"
-            docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR}
-            docker push localhost:5000/${IMAGE}
-            ~/go_appengine/appcfg.py --no_precompilation -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update ${APP_DIR}/deploy/
-            ~/go_appengine/appcfg.py -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} debug ${APP_DIR}/deploy/
+            if [ "$VM" == "true" ]; then
+                echo "[gcloud] build container '${IMAGE}': started"
+                docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR}  > /dev/null 2>&1
+                echo "[gcloud] build container '${IMAGE}': done"
+                echo "[gcloud] upload container '${IMAGE}': started"
+                docker push localhost:5000/${IMAGE}  > /dev/null 2>&1
+                echo "[gcloud] upload container '${IMAGE}': done"
+                echo "[gcloud] update module '${MODULE}': started"
+                ~/go_appengine/appcfg.py --no_precompilation -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update ${APP_DIR}/deploy/
+                ~/go_appengine/appcfg.py -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} debug ${APP_DIR}/deploy/
+                echo "[gcloud] update module '${MODULE}': done"
+            else
+                echo "[gcloud] update module '${MODULE}': started"
+                ~/go_appengine/appcfg.py --oauth2 --noauth_local_webserver update ${APP_DIR} 2>&1 | sed -n -e "s/.*Deployment successful.*/[gcloud] update module '${MODULE}': deployed/p" -e "s/.*Completed update of app.*/[gcloud] update module '${MODULE}': serving/p" -e "s/.*Uploading dispatch entries.*/[gcloud] update dispatch '${APP_ID}': done/p"
+                echo "[gcloud] update module '${MODULE}': done"
+            fi
         done
-        ~/go_appengine/appcfg.py  --no_precompilation -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update dispatch/
         ;;
 "")
         echo "usage: gcloud <init | run | deploy> [directory]" 
