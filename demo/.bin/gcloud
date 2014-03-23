@@ -51,7 +51,7 @@ case "${COMMAND}" in
                 APP_DIRS="${APP_DIR}/dispatch.yaml ${APP_DIRS}"
             fi
         done
-        ~/go_appengine/dev_appserver.py --skip_sdk_update_check  --docker_daemon_url=${DOCKER_HOST} --api_host=${API_HOST} --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started/[gcloud] run module '\1': serving/p" -e "s/INFO.*Starting module \"\(.*\)\" running at: \(.*\)/[gcloud] run module '\1': url=\2/p" -e "s/INFO.*Starting dispatcher running at: \(.*\)/[gcloud] run dispatcher: url=\1/p"
+        ~/go_appengine/dev_appserver.py --skip_sdk_update_check --host=0.0.0.0 --docker_daemon_url=${DOCKER_HOST} --api_host=${API_HOST} --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started/[gcloud] run module '\1': serving/p" -e "s/INFO.*Starting module \"\(.*\)\" running at: \(.*\)/[gcloud] run module '\1': url=\2/p" -e "s/INFO.*Starting dispatcher running at: \(.*\)/[gcloud] run dispatcher: url=\1/p"
 
         ;;
     "update")
@@ -62,10 +62,10 @@ case "${COMMAND}" in
             APP_DIRS="${APP_DIRS} ${APP_DIR}"
             if [ "$VM" == "true" ]; then
                 echo "[gcloud] build container '${IMAGE}': started"
-                docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR}  > /dev/null 2>&1
+                docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR} # > /dev/null 2>&1
                 echo "[gcloud] build container '${IMAGE}': done"
                 echo "[gcloud] upload container '${IMAGE}': started"
-                docker push localhost:5000/${IMAGE}  > /dev/null 2>&1
+                docker push localhost:5000/${IMAGE} # > /dev/null 2>&1
                 echo "[gcloud] upload container '${IMAGE}': done"
                 echo "[gcloud] update module '${MODULE}': started"
                 ~/go_appengine/appcfg.py --no_precompilation -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update ${APP_DIR}/deploy/

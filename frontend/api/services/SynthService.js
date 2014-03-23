@@ -1,10 +1,10 @@
 var qs = require('querystring');
 var request = require('request');
 
-var backendUrl = 'http://' + DiscoveryService.discoverDispatcher() + '/audio';
 
 module.exports = {
   encode: function(v, cb) {
+    var backendUrl = 'http://' + DiscoveryService.discoverDispatcher() + '/audio';
     var params = qs.stringify({
       speed: v.speed / 100.0,
       scale: v.scale,
