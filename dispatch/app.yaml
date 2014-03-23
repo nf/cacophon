@@ -1,0 +1,11 @@
+application: cacophon-demo
+module: default
+version: 1
+runtime: python27
+threadsafe: yes
+api_version: 1
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico

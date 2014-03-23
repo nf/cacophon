@@ -1,0 +1,9 @@
+dispatch:
+  - url: "*/favicon.ico"
+    module: default
+
+  - url: "*/audio*"
+    module: backend
+
+  - url: "*/*"
+    module: frontend
