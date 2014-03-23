@@ -6,6 +6,7 @@ shift
 COMMAND=$1
 shift
 DOCKER_HOST=${DOCKER_HOST:?"DOCKER_HOST not defined"}
+API_HOST=${API_HOST:?"API_HOST not defined"}
 VMRUNTIME_BASE_IMAGE=${VMRUNTIME_BASE_IMAGE:?"VMRUNTIME_BASE_IMAGE not defined"}
 ADMIN_CONSOLE_FLAG=${ADMIN_CONSOLE_FLAG:-}
 
@@ -50,7 +51,7 @@ case "${COMMAND}" in
                 APP_DIRS="${APP_DIR}/dispatch.yaml ${APP_DIRS}"
             fi
         done
-        ~/go_appengine/dev_appserver.py --skip_sdk_update_check  --docker_daemon_url=tcp://172.17.42.1:4243 --api_host=172.17.42.1 --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started/[gcloud] run module '\1': serving/p" -e "s/INFO.*Starting module \"\(.*\)\" running at: \(.*\)/[gcloud] run module '\1': url=\2/p" -e "s/INFO.*Starting dispatcher running at: \(.*\)/[gcloud] run dispatcher: url=\1/p"
+        ~/go_appengine/dev_appserver.py --skip_sdk_update_check  --docker_daemon_url=${DOCKER_HOST} --api_host=${API_HOST} --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started/[gcloud] run module '\1': serving/p" -e "s/INFO.*Starting module \"\(.*\)\" running at: \(.*\)/[gcloud] run module '\1': url=\2/p" -e "s/INFO.*Starting dispatcher running at: \(.*\)/[gcloud] run dispatcher: url=\1/p"
 
         ;;
     "update")
