@@ -1,1 +1,1 @@
-Dockerfile.custom
+Dockerfile.node
