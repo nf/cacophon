@@ -1,6 +1,6 @@
 application: cacophon-demo
 runtime: custom
-module: frontend
+module: frontend-nodejs-dev
 version: 1
 api_version: 1
 vm: true

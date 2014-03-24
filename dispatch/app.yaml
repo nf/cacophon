@@ -1,6 +1,6 @@
 application: cacophon-demo
 module: default
-version: 1
+version: dev
 runtime: python27
 threadsafe: yes
 api_version: 1
