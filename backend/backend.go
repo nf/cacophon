@@ -47,6 +47,14 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func audioHandler(w http.ResponseWriter, r *http.Request) {
+	if b := getCache(r); b != nil {
+		w.Header().Set("Content-type", "audio/mp3")
+		if _, err := w.Write(b); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+
 	u := ui.New(noopHandler{})
 	if err := u.Load(inFile); err != nil {
 		log.Println(err)
@@ -89,6 +97,8 @@ func audioHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := w.Write(b); err != nil {
 		log.Println(err)
 	}
+
+	putCache(r, b)
 }
 
 func floatValue(r *http.Request, name string) float64 {
