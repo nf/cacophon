@@ -37,11 +37,6 @@ func putCache(req *http.Request, audio []byte) {
 	}
 }
 
-type cacheItem struct {
-	req   *http.Request
-	audio []byte
-}
-
 func cacheKey(req *http.Request) string {
 	return req.URL.Query().Encode() // sorted by key
 }
