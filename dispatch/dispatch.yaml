@@ -3,7 +3,7 @@ dispatch:
     module: default
 
   - url: "*/audio*"
-    module: backend-golang-dev
+    module: backend-golang
 
   - url: "*/*"
-    module: frontend-nodejs-dev
+    module: frontend-nodejs

@@ -1,6 +1,6 @@
 application: cacophon-demo
 runtime: go
-module: backend-golang-dev
+module: backend-golang
 version: 1
 api_version: go1
 vm: true
