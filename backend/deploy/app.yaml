@@ -1,5 +1,5 @@
 application: cacophon-demo
-module: backend
+module: backend-golang
 version: 1
 runtime: docker://localhost:5000/proppy/cacophon-demo-backend
 api_version: go1

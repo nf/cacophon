@@ -2,7 +2,7 @@
     "name": "cacophon",
     "private": true,
     "version": "0.0.0",
-    "description": "a Sails application",
+    "description": "cacophony generator",
     "dependencies": {
         "sails": "0.9.13",
         "grunt": "0.4.1",

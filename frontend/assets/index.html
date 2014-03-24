@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>cacophon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="linker/styles/style.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="bower_components/platform/platform.js"></script>
+    <link rel="import" href="components/elements.html">
+  </head>
+  <body>
+    <sails-signals discover="/discover" cookie="/cookie" subscribe="/sounds/subscribe"></sails-signals>
+    <cacophon-synth></cacophon-synth>
+    <cacophon-sound-list></cacophon-sound-list>
+  </body>
+</html>

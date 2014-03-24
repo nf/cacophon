@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ex
-
 NODE_VERSION=v0.10.26
 NODE_PLATFORM=linux-x64
 NODE_DIST=node-${NODE_VERSION}-${NODE_PLATFORM}

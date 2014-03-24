@@ -1,6 +1,6 @@
 application: cacophon-demo
 runtime: custom
-module: frontend
+module: frontend-nodejs
 version: 1
 api_version: 1
 vm: true
@@ -9,6 +9,30 @@ manual_scaling:
   instances: 1
 
 handlers:
+- url: /
+  static_files: assets/index.html
+  upload: assets/index\.html
+
+- url: /favicon\.ico
+  static_files: assets/favicon.ico
+  upload: assets/favicon\.ico
+
+- url: /robots\.txt
+  static_files: assets/robots.txt
+  upload: assets/robots\.txt
+
+- url: /images
+  static_dir: assets/images
+
+- url: /components
+  static_dir: assets/components
+
+- url: /bower_components
+  static_dir: assets/bower_components
+
+- url: /linker
+  static_dir: assets/linker
+
 - url: /.*
   script: server.js
 
