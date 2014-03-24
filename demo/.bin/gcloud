@@ -1,0 +1,84 @@
+#!/bin/bash 
+
+set -e
+
+shift
+COMMAND=$1
+shift
+DOCKER_HOST=${DOCKER_HOST:?"DOCKER_HOST not defined"}
+API_HOST=${API_HOST:?"API_HOST not defined"}
+VMRUNTIME_BASE_IMAGE=${VMRUNTIME_BASE_IMAGE:?"VMRUNTIME_BASE_IMAGE not defined"}
+ADMIN_CONSOLE_FLAG=${ADMIN_CONSOLE_FLAG:-}
+
+get_app_env()
+{
+    APP_DIR=$(readlink -f ${APP_DIR:-$(pwd)})
+    APP_DIR=${APP_DIR/\/demo/}
+    APP_ID=$(sed -n 's/application: //p' ${APP_DIR}/app.yaml)
+    MODULE=$(sed -n 's/module: //p' ${APP_DIR}/app.yaml)
+    RUNTIME=$(sed -n 's/runtime: //p' ${APP_DIR}/app.yaml)
+    VM=$(sed -n 's/vm: //p' ${APP_DIR}/app.yaml)
+    AUTHOR=$(whoami)
+    IMAGE=${AUTHOR}/${APP_ID}-${MODULE}
+}
+
+case "${COMMAND}" in
+"init")
+        docker pull ${VMRUNTIME_BASE_IMAGE}
+        docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-base
+        docker tag ${VMRUNTIME_BASE_IMAGE} private/vmruntime-go
+        docker kill registry || true
+        docker rm registry || true
+        docker run -d -p 5000:5000 -name registry proppy/registry
+        ;;
+"run")
+        APP_DIRS=""
+        for APP_DIR in "$@"
+        do
+            get_app_env
+            APP_DIRS="${APP_DIRS} ${APP_DIR}"
+            if [ "${RUNTIME}" == "go" ]; then
+                echo "[gcloud] build module '${MODULE}': started"
+                (cd ${APP_DIR} && ~/go_appengine/goapp build -tags appengine -o _go_app.bin .)
+                echo "[gcloud] build module '${MODULE}': done"
+            fi
+            if [ "$VM" == "true" ]; then
+                echo "[gcloud] build container '${IMAGE}': started"
+                docker build -q --rm=true -t ${IMAGE} ${APP_DIR} > /dev/null 2>&1
+                echo "[gcloud] build container '${IMAGE}': done"
+            fi
+            if [ -e ${APP_DIR}/dispatch.yaml ]; then
+                APP_DIRS="${APP_DIR}/dispatch.yaml ${APP_DIRS}"
+            fi
+        done
+        ~/go_appengine/dev_appserver.py --skip_sdk_update_check --host=0.0.0.0 --docker_daemon_url=${DOCKER_HOST} --api_host=${API_HOST} --api_port=51515 ${APP_DIRS} 2>&1 | sed -n -e "s/INFO.*module \(.*\) started/[gcloud] run module '\1': serving/p" -e "s/INFO.*Starting module \"\(.*\)\" running at: \(.*\)/[gcloud] run module '\1': url=\2/p" -e "s/INFO.*Starting dispatcher running at: \(.*\)/[gcloud] run dispatcher: url=\1/p"
+
+        ;;
+    "update")
+        APP_DIRS=""
+        for APP_DIR in "$@"
+        do
+            get_app_env
+            APP_DIRS="${APP_DIRS} ${APP_DIR}"
+            if [ "$VM" == "true" ]; then
+                echo "[gcloud] build container '${IMAGE}': started"
+                docker build -q -rm -t localhost:5000/${IMAGE} ${APP_DIR} # > /dev/null 2>&1
+                echo "[gcloud] build container '${IMAGE}': done"
+                echo "[gcloud] upload container '${IMAGE}': started"
+                docker push localhost:5000/${IMAGE} # > /dev/null 2>&1
+                echo "[gcloud] upload container '${IMAGE}': done"
+                echo "[gcloud] update module '${MODULE}': started"
+                ~/go_appengine/appcfg.py --no_precompilation -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} update ${APP_DIR}/deploy/
+                ~/go_appengine/appcfg.py -R --oauth2 --noauth_local_webserver ${ADMIN_CONSOLE_FLAG} debug ${APP_DIR}/deploy/
+                echo "[gcloud] update module '${MODULE}': done"
+            else
+                echo "[gcloud] update module '${MODULE}': started"
+                ~/go_appengine/appcfg.py --oauth2 --noauth_local_webserver update ${APP_DIR} 2>&1 | sed -n -e "s/.*Deployment successful.*/[gcloud] update module '${MODULE}': deployed/p" -e "s/.*Completed update of app.*/[gcloud] update module '${MODULE}': serving/p" -e "s/.*Uploading dispatch entries.*/[gcloud] update dispatch '${APP_ID}': done/p"
+                echo "[gcloud] update module '${MODULE}': done"
+            fi
+        done
+        ;;
+"")
+        echo "usage: gcloud <init | run | deploy> [directory]" 
+        ;;
+esac

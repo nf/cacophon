@@ -1,8 +1,10 @@
 var qs = require('querystring');
 var request = require('request');
 
+
 module.exports = {
   encode: function(v, cb) {
+    var backendUrl = 'http://' + DiscoveryService.discoverDispatcher() + '/audio';
     var params = qs.stringify({
       speed: v.speed / 100.0,
       scale: v.scale,
@@ -17,32 +19,25 @@ module.exports = {
       time: v.time / 100.0,
       feedback: v.feedback / 100.0
     });
-    DiscoveryService.discoverBackend(function(err, backend) {
-      if (err) {
-        cb(err, null);
-        return;
+    var url = backendUrl+'?'+params;
+    console.log('SynthService.encode:', url);
+    request({
+      method: 'GET',
+      url: url,
+      encoding: null
+    }, function(err, response, body) {
+      if (err || response.statusCode != 200) {
+        var error = {
+          message: 'mp3 encoding failed',
+          backend_url: url,
+          err: err,
+        };
+        if (response) error.statusCode = response.statusCode;
+        console.error('SynthService.encode:', error);
+        cb(error, null);
+      } else {
+        cb(null, body.toString('base64'));
       }
-      var url = backend + '/audio?' + params;
-      request({
-        method: 'GET',
-        url: url,
-        encoding: null
-      }, function(err, response, body) {
-        if (err || response.statusCode != 200) {
-          var error = {
-            message: 'mp3 encoding failed',
-            backend_url: url,
-            err: err
-          };
-          if (response) {
-            error.statusCode = response.statusCode;
-          }
-          console.error('SynthService.encode', error);
-          cb(error, null);
-        } else {
-          cb(null, body.toString('base64'));
-        }
-      });
     });
   }
 }

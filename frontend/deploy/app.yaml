@@ -1,14 +1,17 @@
 application: cacophon-demo
-runtime: custom
 module: frontend
 version: 1
+runtime: docker://localhost:5000/proppy/cacophon-demo-frontend
 api_version: 1
 vm: true
 
 manual_scaling:
   instances: 1
 
+vm_settings:
+  docker_bucket: cacophon-images
+  preserve_vm_on_failure: true
+
 handlers:
 - url: /.*
   script: server.js
-

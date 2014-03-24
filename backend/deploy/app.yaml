@@ -1,7 +1,7 @@
 application: cacophon-demo
-runtime: go
 module: backend
 version: 1
+runtime: docker://localhost:5000/proppy/cacophon-demo-backend
 api_version: go1
 vm: true
 
@@ -9,8 +9,9 @@ manual_scaling:
   instances: 1
 
 vm_settings:
-  apt_get_install: lame
+  docker_bucket: cacophon-images
+  preserve_vm_on_failure: true
 
 handlers:
-- url: /.*
+- url: /audio
   script: _go_app
