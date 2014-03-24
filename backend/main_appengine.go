@@ -28,32 +28,18 @@ func getCache(req *http.Request) (audio []byte) {
 }
 
 func putCache(req *http.Request, audio []byte) {
-	toCache <- cacheItem{req, audio}
+	c := appengine.NewContext(req)
+	if err := memcache.Set(c, &memcache.Item{
+		Key:   cacheKey(req),
+		Value: audio,
+	}); err != nil {
+		c.Errorf("putCache: %v", err)
+	}
 }
 
 type cacheItem struct {
 	req   *http.Request
 	audio []byte
-}
-
-var toCache = make(chan cacheItem)
-
-func init() {
-	http.HandleFunc("/_ah/start", startHandler)
-}
-
-func startHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	for item := range toCache {
-		go func(req *http.Request, audio []byte) {
-			if err := memcache.Set(c, &memcache.Item{
-				Key:   cacheKey(req),
-				Value: audio,
-			}); err != nil {
-				c.Errorf("putCache: %v", err)
-			}
-		}(item.req, item.audio)
-	}
 }
 
 func cacheKey(req *http.Request) string {
